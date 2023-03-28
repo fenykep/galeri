@@ -15,21 +15,22 @@ reszponziv font-size
 szélső 100px-es margó clamp
 */
 
-@import url("mobil.css");
+
+/*@import url("mobil.css");*/
 
 @font-face {
 	font-family: "regular";
-	src: url("fonts/Poppins-Regular.ttf");
+	src: url("../fonts/Poppins-Regular.ttf");
 }
 
 @font-face {
 	font-family: "bold";
-	src: url("fonts/Poppins-Bold.ttf");
+	src: url("../fonts/Poppins-Bold.ttf");
 }
 
 @font-face {
 	font-family: "italic";
-	src: url("fonts/Poppins-Italic.ttf");
+	src: url("../fonts/Poppins-Italic.ttf");
 }
 
 html{
@@ -37,6 +38,8 @@ html{
 	font-family: regular, sans-serif;
 	box-sizing: border-box;
 	font-size: 14px;
+
+	scroll-behavior: smooth;
 }
 
 body{
@@ -192,8 +195,8 @@ nav a {
 	text-align: center;
 	padding-top: 5px;
 	font-family: bold, sans-serif;
-	font-size: 18px;
-	font-size: 1rem;
+/*	font-size: 18px;*/
+	font-size: 1.3rem;
 
 	transition: background 0.4s, color 0.4s;
 }
@@ -410,9 +413,12 @@ section.kapcsolat{
 
 
 #mapson{
-	width: 98vw;
+	width: 100%;
 }
 
+footer{
+	display: none;
+}
 
 
 /* -------- formatting for events and exhibitions -----*/

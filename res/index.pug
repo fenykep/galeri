@@ -2,13 +2,13 @@ doctype html
 html(lang="hu")
 	head
 		title 3hétGaléria
-		link(href='main.css', rel='stylesheet')
+		link(href='css/main.css', rel='stylesheet')
 		meta(charset='utf-8')
 	body
 		include nav.pug
 		main
 			section.about#galeriarol
-				img(src='img/galerikep.jpg')
+				img(src='img/img.png')
 				h1 a három hét galériáról
 				p.
 					A Bartók Béla út 37. szám alatt található Három Hét Galéria Újbuda Kulturális Városközpontjának egyik elsőként megnyílt galériája. A Három Hét nevet egyszerűen a Galéria címe adta. Később a számokat ízlelgetve, azokkal játszva alakult ki az elképzelés, hogy a hármas, valamint a hetes szám több helyen is visszaköszönjön. Ezért úgy döntöttünk, hogy minden hónap 3. napján este 7 órakor megnyitót tartunk, amelyen egy-egy újabb művészre hívjuk fel a nagyközönség figyelmét.
@@ -18,97 +18,42 @@ html(lang="hu")
 				h2 GEOMETRIKUS, KONKRÉT- KONSTRUKTÍV MŰVÉSZET.
 				button bővebben
 			section.actual
-				//img(src='img/aktualkep.png')
-				//h1 aktuális kiállítás
-				|<?php
-				|	$servername = "localhost";
-				|	$username = "haromhet_hu";
-				|	$password = "fdjqyoxl";
-				|	$dbname = "haromhet_hu_legnewebb";
-				|	$conn = new mysqli($servername, $username, $password, $dbname);
-				|	if ($conn->connect_error) {
-				|		die("Connection failed: " . $conn->connect_error);
-				|		echo "bajvan";
-				|	}
-				|	mysqli_set_charset($conn,"utf8");
-				|	$sql = "SELECT * FROM `kiallitasok` ORDER BY date DESC LIMIT 1";
-				|	$result = $conn->query($sql);
-				|	$row = $result->fetch_assoc();
-				|	echo "<img src='img/uploads/".$row["kep"]."'>";
-				|	echo "<h1>aktuális kiállítás</h1>";
-				|	echo "<h3>".$row["title"]."</h3>";
-				|	echo "<p>Megnyitó: ".$row["date"]."</p>";
-				|	echo "<p class='italic'>".$row["szoveg"]."</p>";
-				|	$conn->close();
-				|?>
-				//h3 Kemény György / csak
-				//p.
+				img(src='img/img.png')
+				h1 aktuális kiállítás
+				h3 Kemény György / csak
+				p.
 					Megnyitó (Exhibition Opening) november 3. 19h
 					2021. november 4. – november 25.
-				//p.italic.
+				p.italic.
 					A „Csak” kiállításcímről. Mind a 16 képem címe ezzel a csak-kal kezdődik, csupa olyan „csak”-kal, amelyekkel egyetértek, amelyek szerint élni lehet és érdemes, és amelyek lelki szállal kötődnek magukhoz a címet adó képekhez.
 				button bővebben
 			section.kiallitasok
 				h1 kiállítások
 				.exibcards
-					|<?php
-					|	$servername = "localhost";
-					|	$username = "haromhet_hu";
-					|	$password = "fdjqyoxl";
-					|	$dbname = "haromhet_hu_legnewebb";
-					|	$conn = new mysqli($servername, $username, $password, $dbname);
-					|	if ($conn->connect_error) {
-					|		die("Connection failed: " . $conn->connect_error);
-					|		echo "bajvan";
-					|	}
-					|	mysqli_set_charset($conn,"utf8");
-					|	$sql = "SELECT * FROM `kiallitasok` ORDER BY date DESC LIMIT 3 OFFSET 1";
-					|	$result = $conn->query($sql);
-					|	if ($result->num_rows > 0) {
-					|        while($row = $result->fetch_assoc()) {
-					|          echo "
-					|          <div class='exibcard'>
-					|            <img src='img/uploads/".$row["kep"]."'>
-					|            <h4>" . $row["title"] . "</h4>
-					|            <p>".$row["date"]."</p>
-					|            <p class='leiras'>" . $row["szoveg"] . "</p>
-					|            <button>Bővebben</button>
-					|          </div> ";
-					|        }
-					|      }
-					|	$conn->close();
-					|?>
+					.exibcard
+						img(src='img/img.png')
+						h4 Urban Transparency
+						p 2022-03-19
+						p.
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+						button bővebben
 			section.artists#muveszek
 				h1 művészek
 				.artistcont
 					each val, key in {'Kemény György': 'egykep', 'Robitz György': 'egykep', 'József György': 'egykep', 'Milovitz György': 'egykep', 'Kulka János': 'egykep', 'Mérő Klára': 'egykep','Almási Lujza': 'egykep','Baricz Imre': 'egykep'}
 						.artistcard
-							img(src='img/'+val+'.png')
+							img(src='img/img.png')
+							//- img(src='img/'+val+'.png')
 							h4= key
 			section.programok
 				h1 programok
 				h1 Korábbi programjaink
 				.progbox
-					|<?php
-					|	$servername = "localhost";
-					|	$username = "haromhet_hu";
-					|	$password = "fdjqyoxl";
-					|	$dbname = "haromhet_hu_legnewebb";
-					|	$conn = new mysqli($servername, $username, $password, $dbname);
-					|	if ($conn->connect_error) {
-					|		die("Connection failed: " . $conn->connect_error);
-					|		echo "bajvan";
-					|	}
-					|	mysqli_set_charset($conn,"utf8");
-					|	$sql = "SELECT * FROM `esemenyek` ORDER BY date DESC LIMIT 1";
-					|	$result = $conn->query($sql);
-					|	$row = $result->fetch_assoc();
-					|	echo "<img src='img/uploads/".$row["kep"]."'>";
-					|	echo "<h3>".$row["title"]."</h3>";
-					|	echo "<p>".$row["date"]."</p>";
-					|	echo "<p class='italic'>".$row["szoveg"]."</p>";
-					|	$conn->close();
-					|?>
+					img(src='img/img.png')
+					h3 Flow Meditation
+					p 2022-04-21
+					p.italic.
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 					button bővebben
 			section.kapcsolat#kapcsolat
 				h1 kapcsolat
