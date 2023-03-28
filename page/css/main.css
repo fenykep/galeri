@@ -181,17 +181,24 @@ nav a {
 	height: 40px;
 	width: 40px;
 	background-color: white;
-	border-radius: 10px;
-	border-style: solid;
-	border-color: black;
-	border-width: var(--border);
+	
 
 	margin-left: 20px;
+}
+
+.szocblok div img{
+	width: 40px;
 }
 
 .szocblok div:last-child{
 	color: white;
 	background-color: black;
+
+	border-radius: 10px;
+	border-style: solid;
+	border-color: black;
+	border-width: var(--border);
+
 	text-align: center;
 	padding-top: 5px;
 	font-family: bold, sans-serif;
@@ -347,9 +354,19 @@ section.programok{
 
 .programok h1:nth-child(2){
 	position: absolute;
-	left: calc(75% + 30px);
+	left: calc(75% - 40px);
+	padding-left: 20px;
+
+	width: calc(25vw - 275px / 4 - 20px);
+
 	margin: 0;
 	margin-top: 20px;
+}
+
+.programok > img{
+	position: relative;
+	left: 20px;
+	top: 100px;
 }
 
 section.kapcsolat{
@@ -366,7 +383,8 @@ section.kapcsolat{
 }
 
 .kapbubi{
-	
+	display: flex;
+	flex-direction: row;
 	height: 100px;
 }
 
@@ -386,11 +404,30 @@ section.kapcsolat{
 	margin-bottom: 0;
 }
 
-.kapbubi img{
+.kapico{
 	width: 100px;
 	height: 100px;
-	float: left;
+
 	border-radius: 50%;
+	background: black;
+}
+
+.kapico img{
+	width: 60px;
+	height: 60px;
+/*	float: left;*/
+	filter: invert(1);
+
+	position: relative;
+	top: 20px;
+	left: 20px;
+}
+#addric img{
+	width: 100px;
+	height: 100px;
+	position: relative;
+	top: 0;
+	left: 0;
 }
 
 
