@@ -1,0 +1,2 @@
+Szóval docker nginx sql nodejs és valszeg express vagy look into nextjs
+
