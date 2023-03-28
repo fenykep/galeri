@@ -59,8 +59,10 @@ button{
 	text-transform: uppercase;
 	background-color: white;
 	color: black;
-	border-style: solid;
+	border: solid black 2px;
 	padding: 8px 16px 8px 16px;
+
+	cursor: pointer;
 }
 
 a{
@@ -147,7 +149,7 @@ nav a, nav div{
 	background-color: white;
 }
 
-nav a {
+nav > a {
 	height: 42px;
 
 	padding: calc(21px - 1rem);
@@ -156,6 +158,10 @@ nav a {
 	border-style: solid;
 	border-width: var(--border);
 	border-left: 2px;
+}
+
+nav > a:last-child{
+	border-right: none;
 }
 
 #logimg{
@@ -177,7 +183,7 @@ nav a {
 	padding-right: 80px;
 }
 
-.szocblok div{
+.szocblok a{
 	height: 40px;
 	width: 40px;
 	background-color: white;
@@ -186,11 +192,11 @@ nav a {
 	margin-left: 20px;
 }
 
-.szocblok div img{
+.szocblok a img{
 	width: 40px;
 }
 
-.szocblok div:last-child{
+.szocblok a:last-child{
 	color: white;
 	background-color: black;
 
@@ -208,13 +214,13 @@ nav a {
 	transition: background 0.4s, color 0.4s;
 }
 
-.szocblok div:last-child:hover{
+.szocblok a:last-child:hover{
 	color: black;
 	background-color: white;
 }
 
 section.about{
-	margin-bottom: 20px;
+	margin-bottom: 40px;
 	height: calc((60vw + 48px * 0.4) * 597 / 916);
 
 	overflow: hidden;
@@ -237,6 +243,7 @@ section.about img{
 section.about button{
 	float: right;
 	margin-right: 100px;
+	display: none;
 }
 
 section.actual{
@@ -251,6 +258,9 @@ section.actual > *:not(img){
 section.actual img{
 	float: right;
 	width: calc(60% - 48px*0.6 + 2px);
+	height: 100%;
+
+	object-fit: cover;
 }
 
 section.actual button{
@@ -278,6 +288,37 @@ section.kiallitasok{
 
 .exibcard{
 	width: calc(33vw - 250px / 3);
+	border: solid black 2px;
+}
+
+.eventexibcard{
+	color:white;
+	background-color: #272727;
+}
+
+.eventexibcard > h4{
+	color: white;
+}
+
+.eventexibcard > p{
+	color: white;
+}
+
+.eventexibcard > button{
+	color: white;
+	background-color: #272727;
+}
+
+.exibcard > *:not(img, button) {
+	padding: 0 20px;
+}
+
+.exibcard > h4{
+	padding-top: 20px;
+}
+
+.exibcard > button{
+	float: right;
 }
 
 .exibcard .leiras{
@@ -309,6 +350,7 @@ section.artists{
 
 .artistcard img{
 	width: calc(25vw - 275px / 4);
+	cursor: pointer;
 }
 
 section.programok{
@@ -463,10 +505,18 @@ footer{
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
     grid-row-gap: 10px;
+
+    justify-items: center;
+    padding-top: 40px;
+}
+
+.eventMain{
+	margin-bottom: 40px;
 }
 
 /*----- modal that will be filled up  -------------*/
-.eventModal{
+
+/*.eventModal{
     display: none;
     background-color: #80808094;
     position: absolute;
@@ -493,6 +543,6 @@ footer{
 .eventModal :not(img){
 	padding: 10px;
 }
-
+*/
 
 /* -------- formatting for adminpage -----*/

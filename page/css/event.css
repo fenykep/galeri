@@ -1,0 +1,32 @@
+:root{
+	--border: 2px;
+}
+
+:target::before { /* ez a cucc az anchorlinkeket headernyivel lejjebb dobja */
+  content: "";
+  display: block;
+  height: 100px; 
+  margin: -100px 0 0;
+}
+
+html{
+	background-color: white;
+	font-family: regular, sans-serif;
+	box-sizing: border-box;
+	font-size: 14px;
+
+	scroll-behavior: smooth;
+}
+
+body{
+	margin: 0;
+}
+
+main{
+	margin-top: 100px;
+}
+
+main > img{
+	width: 100%;
+	height: 40vh;
+}

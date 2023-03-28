@@ -16,7 +16,8 @@ html(lang="hu")
 				p.
 					A 2010 –ben nyílt galériában sok stílusirányzat megfordult, sokrétű volt a kiállítók listája. 2017-es évtől azonban egy markáns utat szeretnénk konzekvensen képviselni, s ez az irány a:
 				h2 GEOMETRIKUS, KONKRÉT- KONSTRUKTÍV MŰVÉSZET.
-				button bővebben
+				a(href="exibs/exeb1_220319/eventPage.html")
+					button bővebben
 			section.actual
 				img(src='img/img.png')
 				h1 aktuális kiállítás
@@ -26,31 +27,19 @@ html(lang="hu")
 					2021. november 4. – november 25.
 				p.italic.
 					A „Csak” kiállításcímről. Mind a 16 képem címe ezzel a csak-kal kezdődik, csupa olyan „csak”-kal, amelyekkel egyetértek, amelyek szerint élni lehet és érdemes, és amelyek lelki szállal kötődnek magukhoz a címet adó képekhez.
-				button bővebben
+				//- a(href="exibs/exeb1_220319/eventPage.html")
+				button(onclick="window.location.href='exibs/exeb1_220319/eventPage.html'") bővebben
 			section.kiallitasok
 				h1 kiállítások
 				.exibcards
-					.exibcard
-						img(src='img/img.png')
-						h4 Urban Transparency
-						p 2022-03-19
-						p.
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-						button bővebben
-					.exibcard
-						img(src='img/img.png')
-						h4 Urban Transparency
-						p 2022-03-19
-						p.
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-						button bővebben
-					.exibcard
-						img(src='img/img.png')
-						h4 Urban Transparency
-						p 2022-03-19
-						p.
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-						button bővebben
+					each i in [1, 2, 3]
+						.exibcard
+							img(src='img/img.png')
+							h4 Urban Transparency
+							p 2022-03-19
+							p.
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+							button(onclick="window.location.href='exibs/exeb1_220319/eventPage.html'") bővebben
 			section.artists#muveszek
 				h1 művészek
 				.artistcont
@@ -74,20 +63,20 @@ html(lang="hu")
 				h1 kapcsolat
 				.kapbubik
 					.kapbubi
-						.kapico
+						a.kapico(href="tel:+36708664222")
 							img(src='img/phone.svg')
 						.bubcont
 							h4 telefon
 							p Bódis Andrea
 							p 06 70 8664222
 					.kapbubi
-						.kapico
+						a.kapico(href="mailto:andrea.bodis@haromhet.hu")
 							img(src='img/mail.svg')
 						.bubcont
 							h4 email
 							p andrea.bodis@haromhet.hu
 					.kapbubi
-						.kapico#addric
+						a.kapico#addric(href="https://goo.gl/maps/ukptfM9ibBzpZ31U9")
 							img(src='img/address.svg')
 						.bubcont
 							h4 cím
