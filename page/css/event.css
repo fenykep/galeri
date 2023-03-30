@@ -2,13 +2,6 @@
 	--border: 2px;
 }
 
-:target::before { /* ez a cucc az anchorlinkeket headernyivel lejjebb dobja */
-  content: "";
-  display: block;
-  height: 100px; 
-  margin: -100px 0 0;
-}
-
 html{
 	background-color: white;
 	font-family: regular, sans-serif;

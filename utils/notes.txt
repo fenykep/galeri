@@ -1,2 +1,8 @@
-Szóval docker nginx sql nodejs és valszeg express vagy look into nextjs
+Na, eddig megcsináltam a frontendet 90%ra full vanilla mindennel. Még készül a generált eventpagek templétje, meg az adminpage nem szép.
+Csináltam egy mappát, tele almappákkal.
+A rootban git init, weben csináltam egy repót, majd oda pussoltam.
+Aztán (lehet picit későn) npm init a rootban, most kezdem a backendet írni és nodejs, expresst fogok használni. A node versiont belőttem nvm-mel LTS-re és most összeszedem a techstacket amit chatgpt adott :)
 
+MongoDB lesz a kis adatbázis, mert tulajdonképpen semmit nem csinálok vele, csak könyvjelzőként funkcionál.
+Nodejs és express a szerver ezeket npm installal húzd be.
+Multer to handle file uploads, and Mongoose to define the Exhibition model and connect to the database.

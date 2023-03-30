@@ -219,6 +219,8 @@ nav > a:last-child{
 	background-color: white;
 }
 
+/*amúgy kábé idáig kéne global css és ezalatt valami más*/
+
 section.about{
 	margin-bottom: 40px;
 	height: calc((60vw + 48px * 0.4) * 597 / 916);
@@ -279,6 +281,8 @@ section.kiallitasok{
 	
 	height: 820px;
 }
+
+/*mondjuk ezek kellenek több helyre is*/
 
 .exibcards{
 	display: flex;

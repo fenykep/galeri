@@ -1,0 +1,20 @@
+{
+  "name": "haromhetlive",
+  "version": "0.5.0",
+  "description": "small website with server for a small art gallery",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/fenykep/galeri"
+  },
+  "author": "fenykep",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongodb": "^5.1.0",
+    "node": "^18.15.0"
+  }
+}

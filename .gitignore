@@ -1,3 +1,4 @@
 /page/*.html
 /page/img/mapfull.png
 .DS_Store
+*.mock
