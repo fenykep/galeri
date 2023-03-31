@@ -23,15 +23,19 @@ main{
 
 .eventCover{
 	margin-top: 100px;
-	width: 100%;
-	height: 40vh;
+
+	width: 100vw;
+	height: 30vh;
 	object-fit: cover;
 }
 
 .tags{
 	display: flex;
 	flex-direction: row;
+	gap: 1rem;
 }
+
+/*legyen egy/két brékpontod galeri grid 2-3-4col*/
 
 .galeri{
 	margin-left: auto;
@@ -44,4 +48,14 @@ main{
 	padding: 0px;
 	grid-gap: 40px;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+@media only screen and (max-width:600px){
+	.galeri{
+		background-color: green;
+	}
+
+	h4{
+		color:red;
+	}
 }
