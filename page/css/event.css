@@ -21,10 +21,11 @@ main{
 	padding-bottom: 40px;
 }
 
-body > img{
+.eventCover{
 	margin-top: 100px;
 	width: 100%;
 	height: 40vh;
+	object-fit: cover;
 }
 
 .tags{
@@ -43,5 +44,4 @@ body > img{
 	padding: 0px;
 	grid-gap: 40px;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
-}
 }
