@@ -6,3 +6,79 @@ Aztán (lehet picit későn) npm init a rootban, most kezdem a backendet írni �
 MongoDB lesz a kis adatbázis, mert tulajdonképpen semmit nem csinálok vele, csak könyvjelzőként funkcionál.
 Nodejs és express a szerver ezeket npm installal húzd be.
 Multer to handle file uploads, and Mongoose to define the Exhibition model and connect to the database.
+
+Szóval az itteni dockerfile egyelőre csak a nodejs szervernek meg az összes asszetnek az otthonát csinálja meg. de van valahol egy dockerizált mongodb is, az is múködik már a  guiból, de össze lehet valahogy őket kötni valami más fileban, nézd meg a fireship videóját, és akkor egy gombnyomásra egy többszerveren futó webstack elindul débéstől filerendszerestül szerverestül és expózol valami entripontot és tök jó lenne akár ha az adminműveletek tök külön szerveren futnának aminek külön apikulcsa van és pár külön belső fájlja amik nem a közös kifelé facing filerendszerben (volumében) van.
+
+szóval:
+valamelyik oldalra ami kiállításokpage mondjuk rakj egy dblehívós szkriptet és paginációval kérj ki 12/9 eventet meg a mappaelérésüket és azokkal töldtsd föl a plugtemplétet amit static htmlként egyben szervelsz a kliensnek.
+
+mongosh "mongodb://localhost:27017" 
+#ez a dbszerveren belül cli cliensként emulál egy api terminált
+
+#ez nemtom mit csinál
+mongo --host <DOCKER_CONTAINER_IP_ADDRESS> --port <MONGODB_PORT>
+
+ezzel a DBcliben használod adottnevű databázist (eventDB)
+#use <DATABASE_NAME>
+
+db.createCollection('<COLLECTION_NAME>', {
+  validator: {
+    $jsonSchema: {
+      bsonType: 'object',
+      required: ['id', 'title', 'artist', 'date', 'tags', 'directory', 'numImages', 'isEvent'],
+      properties: {
+        id: { bsonType: 'number' },
+        title: { bsonType: 'string' },
+        artist: { bsonType: 'string' },
+        date: { bsonType: 'date' },
+        tags: { bsonType: 'array', items: { bsonType: 'string' } },
+        directory: { bsonType: 'string' },
+        numImages: { bsonType: 'number' },
+        isEvent: { bsonType: 'bool' }
+      }
+    }
+  }
+})
+
+//generate fake entries:
+
+const entries = [
+  {
+    id: 1,
+    title: 'Concert at the park',
+    artist: 'The Music Band',
+    date: new Date(2023, 3, 15, 19, 30),
+    tags: ['music', 'outdoors', 'fun'],
+    directory: '/home/user/images/concert',
+    numImages: 10,
+    isEvent: true
+  },
+  {
+    id: 2,
+    title: 'Art exhibition',
+    artist: 'Jane Doe',
+    date: new Date(2023, 4, 2, 14, 0),
+    tags: ['art', 'painting', 'gallery'],
+    directory: '/home/user/images/art',
+    numImages: 20,
+    isEvent: true
+  },
+  {
+    id: 3,
+    title: 'Movie night',
+    artist: 'Movie Studio',
+    date: new Date(2023, 4, 10, 20, 0),
+    tags: ['movies', 'popcorn', 'friends'],
+    directory: '/home/user/images/movies',
+    numImages: 5,
+    isEvent: true
+  }
+];
+
+db.eventsDB.insertMany(entries);
+
+
+//print all:
+const entries = db.eventsDB.find().toArray();
+printjson(entries);
+
