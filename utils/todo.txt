@@ -1,0 +1,3 @@
+Write the three mock events to the database
+upload some random data into a filestructure that is structured according to predefined conventions (mármint amit én eddig gondoltam)
+aludj

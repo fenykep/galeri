@@ -1,5 +1,6 @@
 # Use an official Node.js runtime as a parent image
-FROM node:14
+# Ezt majd updateld a packagejasonben lévő számra, vagy a mai lts-re
+FROM node:lts
 
 # Set the working directory to /app
 WORKDIR /
