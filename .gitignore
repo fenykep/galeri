@@ -1,4 +1,4 @@
 /page/img/mapfull.png
-.DS_Store
+*.DS_Store
 *.mock
 node_modules/
