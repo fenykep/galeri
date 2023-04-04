@@ -82,3 +82,13 @@ db.eventsDB.insertMany(entries);
 const entries = db.eventsDB.find().toArray();
 printjson(entries);
 
+//szóval a Dockerfile alapján csinál egy docker imaget a docker build -t imagename filehely (ez lehet csak egy pont is)
+//aztán docker login, beállítom a tagot
+// docker tag local-image-name exampleuser/repo-name:1.0
+// docker push fenykep/repo-name:1.0
+
+//ezt a dockerimaget tudod cliből futtatni, de guiból is
+//ha fellőtted dockerhubra, akkor elvileg linoderól is eléred az imaget és az alapján tudsz indítani egy felhőben lakó instanceot
+
+// docker run -p 3000:3000 haromhetdockimg
+// itt a -p flag forwardolja a container 3000-res portját a hoszt 3000-ére
