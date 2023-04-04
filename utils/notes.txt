@@ -92,3 +92,5 @@ printjson(entries);
 
 // docker run -p 3000:3000 haromhetdockimg
 // itt a -p flag forwardolja a container 3000-res portját a hoszt 3000-ére
+
+//szóval létrehoztam egy alap ubuntu alapú docker linode-ot, abba belessh-ztam, majd lehívom a dockerhubról az odatöltött imagemet
