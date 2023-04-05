@@ -94,3 +94,7 @@ printjson(entries);
 // itt a -p flag forwardolja a container 3000-res portját a hoszt 3000-ére
 
 //szóval létrehoztam egy alap ubuntu alapú docker linode-ot, abba belessh-ztam, majd lehívom a dockerhubról az odatöltött imagemet
+
+//itt most a /db directory van fókuszban, van saját Dockerfileja, mongod.conf abba még kéne valami log módot rakni meg a db "fizikai" helyét meghatározni, akár valami perzisztens helyen --csekk dockercompose
+//és most a docker compose up --build
+//elidnítja mindkét containert a db és az app.js es imagekből
