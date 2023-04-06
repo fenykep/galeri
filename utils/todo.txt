@@ -3,3 +3,9 @@ git checkout -b database majd, és ott lesz egy merge
 Write the three mock events to the database
 upload some random data into a filestructure that is structured according to predefined conventions (mármint amit én eddig gondoltam)
 aludj
+
+set up connection to database "standalone" -run nodejs on metal, mongodb containerized
+
+legyen a resben egy exampleEventpage.pug és legyen az app.js-ben egy get endpoint ami nem static html filet lookupol, hanem az exampleEventPage.pug ot rendereli egy külső variable h1-el
+
+ha megvan a mockdata a db-ben akkor próbáld ki, hogy ez az endpoint querryzze a mongodb legfelső(random) elemét és annak a titlejét passolja a pug rendernek
