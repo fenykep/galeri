@@ -16,9 +16,22 @@ app.set('views', './res'); // set the views directory
 app.set('view engine', 'pug');
 
 
+const MongoClient = require('mongodb').MongoClient;
+
+async function getCardData() {
+  const client = await MongoClient.connect('mongodb://localhost:27017');
+  const db = client.db('galeriDB');
+  const collection = db.collection('entries');
+  const cardData = await collection.findOne({ /* query to find the card data */ });
+  client.close();
+  return cardData;
+}
+
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
+
+
 
 app.get('/events', async (req, res) => {
   // const cardData = await getCardData(); // retrieve card data from MongoDB
@@ -27,7 +40,9 @@ app.get('/events', async (req, res) => {
 });
 
 app.get('/exibs', async (req, res) => {
-  res.render('exibsMenu', { title: "Bolombér" });
+  const cardData = await getCardData();
+
+  res.render('exibsMenu', { title: cardData.title });
 });
 
 app.get('/admin', (req, res) => {
