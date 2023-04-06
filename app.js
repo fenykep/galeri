@@ -7,9 +7,28 @@ const port = 3000
 // app.use(express.static(path.join(__dirname, '..', 'page')))
 app.use(express.static('page'))
 
+// serve images and CSS files from the "page" subdirectory
+app.use('../page/img', express.static('page/img'));
+app.use('../page/css', express.static('page/css'));
+
+
+app.set('views', './res'); // set the views directory
+app.set('view engine', 'pug');
+
+
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
+
+app.get('/events', async (req, res) => {
+  // const cardData = await getCardData(); // retrieve card data from MongoDB
+  // res.render('menu', { title: cardData.title }); // pass title data to Pug template
+  res.render('eventsMenu', { title: "Bolombér" });
+});
+
+app.get('/exibs', async (req, res) => {
+  res.render('exibsMenu', { title: "Bolombér" });
+});
 
 app.get('/admin', (req, res) => {
     res.sendFile(__dirname + '/page/admin.html')
