@@ -1,5 +1,4 @@
 const express = require('express')
-const mongoose = require('mongoose')
 const path = require('path')
 const app = express()
 const port = 3000
@@ -15,30 +14,6 @@ app.use('../page/css', express.static('page/css'))
 
 app.set('views', './res') // set the views directory
 app.set('view engine', 'pug')
-
-
-mongoose.connect('mongodb://db:27017/galeriDB', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
-
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
-const entrySchema = new mongoose.Schema({
-  id: Number,
-  title: String,
-  artist: String,
-  date: Date,
-  tags: [String],
-  directory: String,
-  numImages: Number,
-  isExib: Boolean
-});
-
-const EntryModel = mongoose.model('Entry', entrySchema);
-
-
 
 // const MongoClient = require('mongodb').MongoClient
 
@@ -64,9 +39,7 @@ app.get('/events', async (req, res) => {
 });
 
 app.get('/exibs', async (req, res) => {
-    const entry = await EntryModel.findOne({id: 2})
-
-  res.render('exibsMenu', { title: entry.title })
+  res.render('exibsMenu', { title: 'Cicceleti' })
 });
 
 app.get('/admin', (req, res) => {

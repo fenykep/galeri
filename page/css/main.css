@@ -1,3 +1,8 @@
+/*@import "mobil.css";*/
+@import "mobil.css" screen and (orientation: portrait);
+
+/*@import "mobil.css" screen and (max-width: 768px);*/
+
 :root{
 	--border: 2px;
 }
@@ -14,9 +19,6 @@ kérd el a fb, mail, nyil stb svg-ket
 reszponziv font-size
 szélső 100px-es margó clamp
 */
-
-
-/*@import url("mobil.css");*/
 
 @font-face {
 	font-family: "regular";
@@ -518,35 +520,17 @@ footer{
 	margin-bottom: 40px;
 }
 
-/*----- modal that will be filled up  -------------*/
 
-/*.eventModal{
-    display: none;
-    background-color: #80808094;
-    position: absolute;
-    width: 60vw;
-    left: calc(20vw - 20px);
-    height: fit-content;
-    backdrop-filter: blur(10px);
-
-    box-shadow: 0 0 50px black;   
-}
-
-.eventModal img{
-	width: 100%;
-}
-
-.eventModal img::after{
-	content: 'x';
-	width: 50px;
-	height: 50px;
-	background-color: darkred;
-	color: blueviolet;
-}
-
-.eventModal :not(img){
-	padding: 10px;
-}
-*/
-
-/* -------- formatting for adminpage -----*/
+/*itt importálod a mobiloscsst HA brékpont*/
+/*@media (orientation: portrait){
+	@import url("page/css/mobil.css");
+	.exibcards{
+		flex-direction: column;
+	}
+	.exibcard{
+		width: 100%;
+	}
+	.exibcard > img{
+		float: left;
+	}
+}*/

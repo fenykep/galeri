@@ -50,12 +50,13 @@ main{
 	grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
-@media only screen and (max-width:600px){
+@media (orientation: portrait){
 	.galeri{
-		background-color: green;
+/*		background-color: green;*/
+		grid-template-columns: 1fr 1fr 1fr;
 	}
 
 	h4{
-		color:red;
+/*		color:red;*/
 	}
 }

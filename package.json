@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "node app.js",
+    "offline": "node appOffline.js"
   },
   "repository": {
     "type": "git",
@@ -16,6 +17,7 @@
   "dependencies": {
     "express": "^4.18.2",
     "mongodb": "^5.1.0",
+    "mongoose": "^7.0.3",
     "node": "^18.15.0",
     "pug": "^3.0.2"
   }
