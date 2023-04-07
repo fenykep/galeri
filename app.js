@@ -64,9 +64,9 @@ app.get('/events', async (req, res) => {
 });
 
 app.get('/exibs', async (req, res) => {
-    const entry = await EntryModel.findOne({id: 2})
+    const entry = await EntryModel.find()
 
-  res.render('exibsMenu', { title: entry.title })
+  res.render('exibsMenu', { data: entry })
 });
 
 app.get('/admin', (req, res) => {

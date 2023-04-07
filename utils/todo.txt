@@ -16,3 +16,6 @@ fix it.
 
 egyrész valahogy érd el, hogy ha a mobilbrékpolynt megtörténik, akkor a mobil.css-t is hívja be with higher priority
 abban valahogy csináld meg, hogy csak a latest exib jelenjen meg, onnan tudj menni az összes exibre, ami ugye egy subpage pugból mongoval generálva, de a mobilos exibsMenu.pug css-e ne ugyanazt az eventcardot használja, hanem ott csak a kép, artist ésvagy title és egy more button legyen, descriptiont haggyad
+
+#CSS
+mobilon a kapcsolat buborékok torlódnak

@@ -8,19 +8,20 @@ html(lang="hu")
 		include nav.pug
 		main.eventMain
 			.eventcont
-				.exibcard
-						img(src='/img/img.png')
-						h4= title
-						p 2022-03-19
-						p.
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-						button(onclick="window.location.href='exeb1_220319/eventPage.html'") bővebben
-				each i in [1, 2, 3, 4, 5]
+				each item in data
 					.exibcard
-						img(src='/img/img.png')
-						h4 Urban Transparency
-						p 2022-03-19
-						p.
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-						button(onclick="window.location.href='exeb1_220319/eventPage.html'") bővebben
+							img(src='/img/img.png')
+							h4= item.title
+							p 2022-03-19
+							p.
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+							button(onclick="window.location.href='exeb1_220319/eventPage.html'") bővebben
+				//- each i in [1, 2, 3, 4, 5]
+				//- 	.exibcard
+				//- 		img(src='/img/img.png')
+				//- 		h4 Urban Transparency
+				//- 		p 2022-03-19
+				//- 		p.
+				//- 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				//- 		button(onclick="window.location.href='exeb1_220319/eventPage.html'") bővebben
 	include footer.pug
