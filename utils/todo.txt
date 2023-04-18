@@ -19,3 +19,18 @@ abban valahogy csináld meg, hogy csak a latest exib jelenjen meg, onnan tudj me
 
 #CSS
 mobilon a kapcsolat buborékok torlódnak
+
+
+Make the uploadEvent adminpage look more like an actual event.
+
+switch to LTS alpine base images for docker
+set up a toolchain so it tracks the current used version, if a newer lts version comes out test against it and if passes update the version
+For some reason the 18.16.0-alpine doesnt work, switched to 18.16.0-slim for now
+
+USERS!!!
+
+Proper networking in the docker-compose
+(dns-server like feature, helps with connection stability I guess)
+Again a decision you later have to make:
+either give a purpose for the custom mongodb image with users and stuff if you understand it, prolly a mutliuser setup would be nice for the separate admin-container to make sense
+but if you dont set that up, then you dont have  to have a separate config and Dockerfile for the db

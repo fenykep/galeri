@@ -98,3 +98,7 @@ printjson(entries);
 //itt most a /db directory van fókuszban, van saját Dockerfileja, mongod.conf abba még kéne valami log módot rakni meg a db "fizikai" helyét meghatározni, akár valami perzisztens helyen --csekk dockercompose
 //és most a docker compose up --build
 //elidnítja mindkét containert a db és az app.js es imagekből
+
+
+I have to make a decision on displaying the menus for the events and exhibitions. Initially I wanted to simply do a db query[bias=page*9 maxrecord=9] and then generate the menu with a pug template, but I realized that now I would only need the whole webserver for this functionality.
+30mins later I realized that this is not the case, so Ill stick with two separate nodejs servers for now.
