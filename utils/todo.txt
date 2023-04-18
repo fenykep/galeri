@@ -34,3 +34,6 @@ Proper networking in the docker-compose
 Again a decision you later have to make:
 either give a purpose for the custom mongodb image with users and stuff if you understand it, prolly a mutliuser setup would be nice for the separate admin-container to make sense
 but if you dont set that up, then you dont have  to have a separate config and Dockerfile for the db
+
+I added a  dependency called multer that does the same thing as  the body-parser module, but it works  for multipart forms and images and stuff, so please dont forget to remove the body-parser
+Ill have to delete the node-modules dir and run npm install again. that will delete all the deps of body-parser and regenerate the package-lock.json

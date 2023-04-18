@@ -102,3 +102,19 @@ printjson(entries);
 
 I have to make a decision on displaying the menus for the events and exhibitions. Initially I wanted to simply do a db query[bias=page*9 maxrecord=9] and then generate the menu with a pug template, but I realized that now I would only need the whole webserver for this functionality.
 30mins later I realized that this is not the case, so Ill stick with two separate nodejs servers for now.
+
+csináltam a databasebe két usert
+
+// db.createUser({
+//   user: "client",
+//   pwd: "",
+//   roles: [{ role: "read", db: "galeriDB" }]
+// })
+
+// db.createUser({
+//   user: "admin",
+//   pwd: "",
+//   roles: [{ role: "readWrite", db: "galeriDB" }]
+// })
+
+ugye a jelszavakat majd írd át, de ha esetleg ők nem jönnének maguktól létre  akkor egy mongosh shellel ezekkel a kommandokkal hozod őket létre és tudsz majd rájuk csatlakozni
