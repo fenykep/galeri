@@ -1,17 +1,30 @@
-version: '3.8'
+version: '3'
+
 services:
-  web:
-    build: .
+  client:
+    build: ./client
+    hostname: clientServer
+    ports:
+      - "3000:3000"
     volumes:
-      - /node_modules
-    ports:
-      - '3000:3000'
+      - "./volumes/site:/app/public"
     depends_on:
-      - db
-  db:
-    build:
-      context: ./db
-      dockerfile: Dockerfile
+      - database
+
+  admin:
+    build: ./admin
+    hostname: adminServer
     ports:
-      - '27017:27017'
+      - "3001:3000"
+    volumes:
+      - "./volumes/site:/app/public"
+    depends_on:
+      - database
+
+  database:
+    build: ./database
+    hostname: dbServer
+    volumes:
+      - "./volumes/db:/data/db"
+      - "./database/mongod.conf:/etc/mongod.conf"
 
