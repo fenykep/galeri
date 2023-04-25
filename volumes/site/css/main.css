@@ -1,0 +1,536 @@
+/*@import "mobil.css";*/
+@import "mobil.css" screen and (orientation: portrait);
+
+/*@import "mobil.css" screen and (max-width: 768px);*/
+
+:root{
+	--border: 2px;
+}
+
+:target::before { /* ez a cucc az anchorlinkeket headernyivel lejjebb dobja */
+  content: "";
+  display: block;
+  height: 100px; 
+  margin: -100px 0 0;
+}
+
+/*
+kérd el a fb, mail, nyil stb svg-ket
+reszponziv font-size
+szélső 100px-es margó clamp
+*/
+
+@font-face {
+	font-family: "regular";
+	src: url("../fonts/Poppins-Regular.ttf");
+}
+
+@font-face {
+	font-family: "bold";
+	src: url("../fonts/Poppins-Bold.ttf");
+}
+
+@font-face {
+	font-family: "italic";
+	src: url("../fonts/Poppins-Italic.ttf");
+}
+
+html{
+	background-color: white;
+	font-family: regular, sans-serif;
+	box-sizing: border-box;
+	font-size: 14px;
+
+	scroll-behavior: smooth;
+}
+
+body{
+	margin: 0;
+}
+
+main{
+	margin-top: 100px;
+}
+
+.happening{
+    padding: 20px 20px;
+}
+
+button{
+	text-decoration: none;
+	text-transform: uppercase;
+	background-color: white;
+	color: black;
+	border: solid black 2px;
+	padding: 8px 16px 8px 16px;
+
+	cursor: pointer;
+}
+
+a{
+	text-decoration: none;
+	color: black;
+}
+
+h1{
+	font-size: 30px;
+	font-size: 1.6rem;
+	font-family: bold, sans-serif;
+	text-transform: uppercase;
+}
+
+h2{
+	font-size: 20px;
+	font-size: 1.2rem;
+	font-family: bold, sans-serif;
+	text-transform: uppercase;
+}
+
+h3{
+	font-size: 30px;
+	font-size: 1.6rem;
+	font-family: regular, sans-serif;
+	text-transform: uppercase;
+}
+
+h4{
+	font-size: 18px;
+	font-size: 1rem;
+	font-family: bold, sans-serif;
+	text-transform: uppercase;
+	margin: 0;
+}
+
+p{
+	font-size: 18px;
+	font-size: 1rem;
+	font-family: regular, sans-serif;
+	color: black;
+}
+
+p.italic{
+	font-family: italic, sans-serif;
+}
+
+
+nav{
+	z-index: 10;
+	position: fixed;
+	top: 0;
+	left: 48px;
+	width: calc(100% - 48px);
+	height: 100px;
+
+	background-color: white;
+
+	display: grid;
+	grid-template-areas:
+    'logo logo logo szocblok szocblok'
+    'about exibs artists events contact';
+    /*
+    grid-gap: var(--border);
+    */
+
+    align-items: center;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.logo{
+	box-sizing: border-box;
+	height: 56px;
+	padding: 14px 0 0 18px;
+	margin: 0px 0px 0 0px;
+
+	text-transform: uppercase;
+
+	grid-area: logo;
+}
+
+nav a, nav div{
+	box-sizing: border-box;
+	background-color: white;
+}
+
+nav > a {
+	height: 42px;
+
+	padding: calc(21px - 1rem);
+	padding-left: 37px;
+	
+	border-style: solid;
+	border-width: var(--border);
+	border-left: 2px;
+}
+
+nav > a:last-child{
+	border-right: none;
+}
+
+#logimg{
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100px;
+}
+
+.logo{grid-area: logo;}
+
+.szocblok{
+	grid-area: szocblok;
+
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+
+	padding-right: 80px;
+}
+
+.szocblok a{
+	height: 40px;
+	width: 40px;
+	background-color: white;
+	
+
+	margin-left: 20px;
+}
+
+.szocblok a img{
+	width: 40px;
+}
+
+.szocblok a:last-child{
+	color: white;
+	background-color: black;
+
+	border-radius: 10px;
+	border-style: solid;
+	border-color: black;
+	border-width: var(--border);
+
+	text-align: center;
+	padding-top: 5px;
+	font-family: bold, sans-serif;
+/*	font-size: 18px;*/
+	font-size: 1.3rem;
+
+	transition: background 0.4s, color 0.4s;
+}
+
+.szocblok a:last-child:hover{
+	color: black;
+	background-color: white;
+}
+
+/*amúgy kábé idáig kéne global css és ezalatt valami más*/
+
+section.about{
+	margin-bottom: 40px;
+	height: calc((60vw + 48px * 0.4) * 597 / 916);
+
+	overflow: hidden;
+}
+
+section.about > *:not(img){
+	position: relative;
+	right: -30px;
+	top: 10px;
+	margin-right: 97px;
+}
+
+section.about img{
+	width: calc(60% + 48px * 0.4);
+	float: left;
+	height: calc((60vw + 48px * 0.4) * 597 / 916);
+	object-fit: cover;
+}
+
+section.about button{
+	float: right;
+	margin-right: 100px;
+	display: none;
+}
+
+section.actual{
+	height: calc(60vw * 597 / 916);
+}
+
+section.actual > *:not(img){
+	margin-left: 100px;
+	margin-right: calc(60% - 48px*0.6 + 42px);
+}
+
+section.actual img{
+	float: right;
+	width: calc(60% - 48px*0.6 + 2px);
+	height: 100%;
+
+	object-fit: cover;
+}
+
+section.actual button{
+	margin-right: 0;
+}
+
+section.actual > p.italic{
+	height: 10.5rem;
+	overflow: hidden;
+}
+
+
+section.kiallitasok{
+	padding-left: 100px;
+	padding-right: 100px;
+	
+	height: 820px;
+}
+
+/*mondjuk ezek kellenek több helyre is*/
+
+.exibcards{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.exibcard{
+	width: calc(33vw - 250px / 3);
+	border: solid black 2px;
+}
+
+.eventexibcard{
+	color:white;
+	background-color: #272727;
+}
+
+.eventexibcard > h4{
+	color: white;
+}
+
+.eventexibcard > p{
+	color: white;
+}
+
+.eventexibcard > button{
+	color: white;
+	background-color: #272727;
+}
+
+.exibcard > *:not(img, button) {
+	padding: 0 20px;
+}
+
+.exibcard > h4{
+	padding-top: 20px;
+}
+
+.exibcard > button{
+	float: right;
+}
+
+.exibcard .leiras{
+	height: 9rem;
+	overflow: hidden;
+}
+
+.exibcard img{
+	width: calc(33vw - 250px / 3);	
+}
+
+section.artists{
+	padding-left: 100px;
+	padding-right: 100px;
+}
+
+.artistcont{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.artistcard h4{
+	position: relative;
+	bottom: 45px;
+	left: 25px;
+	color: white;
+}
+
+.artistcard img{
+	width: calc(25vw - 275px / 4);
+	cursor: pointer;
+}
+
+section.programok{
+	height: 600px;
+}
+
+.progbox{
+	background-color: #272727;
+	float: left;
+	width: calc(75% - 40px);
+}
+
+.progbox img{
+	width: 39%;
+	height: 400px;
+	margin-left: 100px;
+	margin-top: 33px;
+	margin-bottom: 33px;
+	margin-right: 50px;
+	float: left;
+
+	object-fit: cover;
+}
+
+.progbox > *:not(img){
+	color: white;
+}
+
+.progbox button{
+	background-color: #272727;
+}
+
+.progbox p.italic{
+	margin-right: 88px;
+
+	height: 12rem;
+	overflow: hidden;
+}
+
+.programok h1{
+	margin-left: 100px;
+}
+
+.programok h1:nth-child(2){
+	position: absolute;
+	left: calc(75% - 40px);
+	padding-left: 20px;
+
+	width: calc(25vw - 275px / 4 - 20px);
+
+	margin: 0;
+	margin-top: 20px;
+}
+
+.programok > img{
+	position: relative;
+	left: 20px;
+	top: 100px;
+}
+
+section.kapcsolat{
+	padding-left: 100px;
+	padding-right: 100px;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+.kapbubik{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.kapbubi{
+	display: flex;
+	flex-direction: row;
+	height: 100px;
+}
+
+.bubcont{
+	float: right;
+	
+	margin-top: 0px;
+	padding-left: 20px;
+}
+
+.bubcont p{
+	margin-top: 9px;
+	margin-bottom: 9px;
+}
+
+.bubcont p:last-child{
+	margin-bottom: 0;
+}
+
+.kapico{
+	width: 100px;
+	height: 100px;
+
+	border-radius: 50%;
+	background: black;
+}
+
+.kapico img{
+	width: 60px;
+	height: 60px;
+/*	float: left;*/
+	filter: invert(1);
+
+	position: relative;
+	top: 20px;
+	left: 20px;
+}
+#addric img{
+	width: 100px;
+	height: 100px;
+	position: relative;
+	top: 0;
+	left: 0;
+}
+
+
+#terkep{
+	width: 100%;
+	margin-top: 74px;
+}
+
+
+
+.eventcard{
+	border-style: solid;
+	border-color: red;
+	width: 600px;
+}
+
+.eventcard img{
+	width: 600px;
+}
+
+
+#mapson{
+	width: 100%;
+}
+
+footer{
+	display: none;
+}
+
+
+/* -------- formatting for events and exhibitions -----*/
+.eventcont{
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+    grid-row-gap: 10px;
+
+    justify-items: center;
+    padding-top: 40px;
+}
+
+.eventMain{
+	margin-bottom: 40px;
+}
+
+
+/*itt importálod a mobiloscsst HA brékpont*/
+/*@media (orientation: portrait){
+	@import url("page/css/mobil.css");
+	.exibcards{
+		flex-direction: column;
+	}
+	.exibcard{
+		width: 100%;
+	}
+	.exibcard > img{
+		float: left;
+	}
+}*/

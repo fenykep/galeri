@@ -1,5 +1,6 @@
-/page/img/mapfull.png
 *.DS_Store
 *.mock
 *node_modules/
-/volumes/
+volumes/site/exibs/*
+volumes/site/events/*
+volumes/db/*

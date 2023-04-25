@@ -134,6 +134,7 @@ app.post(
       tags: newEntry.tags,
       description: req.body.description,
       numImages: newEntry.numImages,
+      directory: newEntry.directory,
       coverImageSrc: `${newEntry.directory}/cover.png`,
       galleryPath: `${newEntry.directory}/gal/L`,
     };
