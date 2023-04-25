@@ -50,6 +50,10 @@ main{
 	grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
+.galeri img{
+	width: 100%;
+}
+
 @media (orientation: portrait){
 	.galeri{
 /*		background-color: green;*/

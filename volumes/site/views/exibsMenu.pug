@@ -10,12 +10,12 @@ html(lang="hu")
 			.eventcont
 				each item in data
 					.exibcard
-							img(src='/img/img.png')
+							img(src=`/exibs/${item.directory}/cover.webp`)
 							h4= item.title
 							p= item.date.toISOString().substr(0, 10)
 							p.
 								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-							button(onclick="`window.location.href='/exibs/${item.directory}/eventPage.html`") bővebben
+							button(onclick=`window.location.href='/exibs/${item.directory}/eventPage.html'`) bővebben
 							//- button(onclick="window.location.href='exeb1_220319/eventPage.html'") bővebben
 							
 				//- each i in [1, 2, 3, 4, 5]

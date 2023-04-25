@@ -2,6 +2,8 @@ const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const multer = require("multer");
+const sharp = require("sharp");
+const pug = require("pug");
 const fs = require("fs");
 
 // two functions to create the directory name from the artists first name and the events name
@@ -71,11 +73,6 @@ app.post(
   "/uploadEvent",
   upload.fields([{ name: "image" }, { name: "imaGalery" }]),
   (req, res, next) => {
-    // console.log('This is what we got:');
-    // console.log(req.body);
-    // console.log('the whole req:');
-    // console.log(req);
-
     const newEntry = new EntryModel({
       title: req.body.title,
       artist: req.body.artist,
@@ -105,11 +102,28 @@ app.post(
     fs.writeFileSync(descriptionPath, req.body.description);
 
     // save the cover image to the folder
-    const coverImagePath = path.join(
-      folderPath,
-      "cover" + path.extname(req.files["image"][0].originalname)
-    );
-    fs.writeFileSync(coverImagePath, req.files["image"][0].buffer);
+    const coverImagePath = path.join(folderPath, "cover.webp");
+    // read uploaded image using sharp
+    const uploadedCoverImage = sharp(req.files["image"][0].buffer);
+
+    // convert image to webp format
+    uploadedCoverImage
+      .webp({ quality: 100 })
+      .toBuffer()
+      .then((webpData) => {
+        // write webp data to file
+        fs.writeFileSync(coverImagePath, webpData);
+      })
+      .catch((err) => {
+        console.error("Failed to convert image to webp format:", err);
+      });
+
+    // // save the cover image to the folder
+    // const coverImagePath = path.join(
+    //   folderPath,
+    //   "cover" + path.extname(req.files["image"][0].originalname)
+    // );
+    // fs.writeFileSync(coverImagePath, req.files["image"][0].buffer);
 
     // create a subfolder for the gallery images
     const galFolderPath = path.join(folderPath, "gal", "L");
@@ -135,21 +149,41 @@ app.post(
       description: req.body.description,
       numImages: newEntry.numImages,
       directory: newEntry.directory,
-      coverImageSrc: `${newEntry.directory}/cover.png`,
+      coverImageSrc: `${newEntry.directory}/cover.webp`,
       galleryPath: `${newEntry.directory}/gal/L`,
     };
 
     console.log("eventRenderObject: ");
     console.log(eventRenderObject);
 
+    const renderedHtml = pug.renderFile(
+      "app/public/views/dinamikusEventPage.pug",
+      { event: eventRenderObject }
+    );
+    console.log("rendered html:");
+    console.log(renderedHtml);
+    const filePath = path.join(
+      __dirname,
+      `app/public/exibs/${newEntry.directory}/eventPage.html`
+    );
+    // Save the rendered HTML to the file
+    fs.writeFile(filePath, renderedHtml, function (err) {
+      if (err) {
+        console.error("Error saving file:", err);
+      } else {
+        console.log("File saved successfully");
+      }
+    });
+
     // a pugnak amúgy innen tudnánk a legkönnyebben küldeni egy arrayt,
     // amiben csak annyi van, hogy ['01.png', '02.jpg', '03.jpeg', '04.png']
 
     // irj már valami minimális errorhandlinget legalább légyszike
     // és akkor lehet olyan, hogy ha a filedolgok errort dobnak akkor ne írj a débébe se és fordítva
-    // insertEntries(newEntry);
+    insertEntries(newEntry);
     // res.send({ success: true });
-    res.render("dinamikusEventPage", { event: eventRenderObject });
+
+    res.send({ success: true });
   }
 );
 
