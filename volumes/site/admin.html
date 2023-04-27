@@ -8,22 +8,24 @@
 	<title>Admin</title>
 </head>
 <body>
+	<img id="imagePreview" src="#" alt="Preview" style="">
 	<form enctype="multipart/form-data" method="POST" action="/uploadEvent">
+		<label for="image">Cover Image:</label>
+		<input type="file" id="image" name="image"onchange="previewImage(event)" accept="image/*" required><br>
+
 		<label for="title">Exhibition Title:</label>
-		<input type="text" id="title" name="title" required><br>
+		<input type="text" id="title" name="title" required placeholder="Cím"><br>
 
 		<label for="artist">Artist Name:</label>
-		<input type="text" id="artist" name="artist" required><br>
+		<input type="text" id="artist" name="artist" required placeholder="Művész"><br>
 
 		<label for="date">Opening Date:</label>
 		<input type="date" id="date" name="date" required><br>
 
-		<label for="image">Cover Image:</label>
-		<input type="file" id="image" name="image"onchange="previewImage(event)" accept="image/*"><br>
-		<img id="imagePreview" src="#" alt="Preview" style="display: none; max-width: 300px;"><br>
+		
 		<input type="file" id="imaGalery" name="imaGalery" accept="image/*" multiple><br>
 		<label for="description">Exhibition Description:</label><br>
-		<textarea id="description" name="description" rows="10" cols="50" required></textarea><br>
+		<textarea placeholder="Leírás..." id="description" name="description" rows="10" cols="50" required></textarea><br>
 
 		<input type="submit" value="Submit">
 	</form>

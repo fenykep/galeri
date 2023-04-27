@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const { promises: fs } = require("fs");
 
 const app = express();
 app.use(bodyParser.json());
@@ -39,29 +40,41 @@ app.use(express.static("app/public"));
 
 app.get("/events", (req, res) => {
   res.send("itt lesz az eventek gridje");
-  // const event = {
-  //   artist: "Csángó Kalász",
-  //   title: "Borókázás Bőrokávál",
-  //   date: "2013-03-19",
-  //   tags: ["majd", "kitöltöm"],
-  //   numImages: 2,
-  // };
-
-  // const srcFolder =
-  //   "exibs/" +
-  //   createString({
-  //     title: event.title,
-  //     artist: event.artist,
-  //   });
-  // event.coverImageSrc = srcFolder + "/cover.png";
-  // // event.galleryPath = srcFolder + "/gal/L";
-  // event.galleryPath = `exibs/${srcFolder}/gal/L`;
-  // res.render("eventPage", { event });
 });
 
+// app.get("/exibs", async (req, res) => {
+//   const entry = await EntryModel.find();
+
+//   const data = await Promise.all(entry.map(async (item) => {
+//     const descriptionFilePath = path.join(__dirname, "public", "exibs", item.directory, "description.txt");
+//     const description = await fs.promises.readFile(descriptionFilePath, 'utf-8');
+//     return { ...item.toObject(), description };
+//   }));
+
+//   res.render("exibsMenu", { data });
+// });
+
 app.get("/exibs", async (req, res) => {
-  const entry = await EntryModel.find();
-  res.render("exibsMenu", { data: entry });
+  try {
+    const entry = await EntryModel.find();
+
+    const data = await Promise.all(entry.map(async (item) => {
+      const descriptionFilePath = path.join(__dirname, "app", "public", "exibs", item.directory, "description.txt");
+      let description;
+      try {
+        description = await fs.readFile(descriptionFilePath, 'utf-8');
+      } catch (error) {
+        console.error(`Error reading file ${descriptionFilePath}: ${error}`);
+        description = "No description available";
+      }
+      return { ...item.toObject(), description };
+    }));
+
+    res.render("exibsMenu", { data });
+  } catch (error) {
+    console.error(`Error retrieving exibs: ${error}`);
+    res.status(500).send("Internal server error");
+  }
 });
 
 app.listen(3000, () => {

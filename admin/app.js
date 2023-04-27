@@ -181,9 +181,11 @@ app.post(
     // irj már valami minimális errorhandlinget legalább légyszike
     // és akkor lehet olyan, hogy ha a filedolgok errort dobnak akkor ne írj a débébe se és fordítva
     insertEntries(newEntry);
-    // res.send({ success: true });
 
-    res.send({ success: true });
+    console.log(filePath);
+    res.redirect(`/exibs/${newEntry.directory}/eventPage.html`);
+    // res.sendFile(filePath);
+    // res.send({ success: true });
   }
 );
 

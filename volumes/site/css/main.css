@@ -335,6 +335,7 @@ section.kiallitasok {
 
 .exibcard img {
   width: calc(33vw - 250px / 3);
+  width: 100%;
 }
 
 section.artists {

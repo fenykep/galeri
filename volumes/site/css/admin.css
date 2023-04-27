@@ -1,3 +1,44 @@
 textarea{
 	resize: none;
+	font-family: 'regular';
+	width: 100%;
+}
+
+form{
+	margin-top: 40px;
+	padding: 0 48px;
+	padding-bottom: 40px;
+}
+
+form label{
+	display: none;
+}
+
+form input[type="text"]{
+	font-family: bold, sans-serif;
+/*	text-transform: uppercase;*/
+	margin: 0;
+	font-size: 1.5rem;
+	margin-bottom: 1rem;
+}
+
+form input[type="file"]{
+	margin: 1rem 0;
+}
+
+#imagePreview{
+	--stripeColorOne: #FFF9B9;
+	--stripeColorTwo: #6C8EBF;
+	--stripeWidthSingle: 20px;
+	width: 100vw;
+	height: 30vh;
+	object-fit: cover;
+	display: block;
+	background: repeating-linear-gradient(
+		45deg,
+		var(--stripeColorOne),
+		var(--stripeColorOne) var(--stripeWidthSingle),
+		var(--stripeColorTwo) var(--stripeWidthSingle),
+		var(--stripeColorTwo) calc(var(--stripeWidthSingle) * 2)
+	);
 }

@@ -23,6 +23,7 @@ main{
 
 .eventCover{
 	margin-top: 100px;
+	margin-top: 42px;
 
 	width: 100vw;
 	height: 30vh;
@@ -64,6 +65,18 @@ h4{
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+}
+
+/*on eventpages only display a 42px tall menubar*/
+nav{
+	left: 0;
+	width: 100%;
+	height: fit-content;
+	grid-template-areas: "about exibs artists events contact";
+}
+
+nav .logo, nav .szocblok, .logoWrapper{
+	display: none;
 }
 
 @media (orientation: portrait){
