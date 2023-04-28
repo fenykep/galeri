@@ -4,12 +4,11 @@ html(lang="hu")
 		title 3hétGaléria
 		link(href='/css/main.css', rel='stylesheet')
 		link(href='/css/event.css', rel='stylesheet')
-		//- link(href='../../css/event.css', rel='stylesheet')
 		meta(charset='utf-8')
 	body
 		include nav.pug
 		//- csangoborokazasborokaval
-		img(src=`/exibs/${event.coverImageSrc}`).eventCover
+		img(src=`/exibs/${event.directory}/cover.webp`).eventCover
 		main
 			h4 #{event.artist} - 
 			h4 #{event.title}
@@ -20,5 +19,5 @@ html(lang="hu")
 			p #{event.description}
 			.galeri
 				each i in Array.from(Array(event.numImages).keys())
-					- const imageName = ('0' + (i + 1)).slice(-2) + '.jpeg'
-					img(src=`/exibs/${event.galleryPath}/${imageName}`)
+					- const imageName = ('0' + (i + 1)).slice(-2) + '.jpg'
+					img(src=`/exibs/${event.directory}/gal/L/${imageName}`)

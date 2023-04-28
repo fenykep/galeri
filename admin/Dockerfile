@@ -1,5 +1,8 @@
 FROM node:18.16.0-slim
 
+# This might make my build less deterministic, but just to be safe
+RUN apt-get update && apt-get upgrade -y
+
 # Set the working directory to /app //actually to / root
 WORKDIR /
 
@@ -7,7 +10,7 @@ WORKDIR /
 COPY package*.json .
 
 # Install dependencies
-RUN npm install
+RUN npm install production
 
 # Copy the rest of the application files to /app
 COPY . .

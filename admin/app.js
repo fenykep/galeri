@@ -59,6 +59,21 @@ const entrySchema = new mongoose.Schema({
 
 const EntryModel = mongoose.model("Entry", entrySchema);
 
+function updateIndexPage(){
+  const actualExib = {
+    artist: newEntry.artist,
+    title: newEntry.title,
+    date: newEntry.date,
+    directory: newEntry.directory,
+  };
+
+  // get description from directory and update
+  // actualExib.description
+
+  const earlierExibs = [{},{},{}];
+  const actualEvent = {};
+}
+
 app.get("/admin", (req, res) => {
   res.sendFile(path.join(__dirname, "app/public/admin.html"));
 });
@@ -73,6 +88,7 @@ app.post(
   "/uploadEvent",
   upload.fields([{ name: "image" }, { name: "imaGalery" }]),
   (req, res, next) => {
+    const numImages = req.files["imaGalery"] ? req.files["imaGalery"].length : 0; // Check if imaGalery files were uploaded
     const newEntry = new EntryModel({
       title: req.body.title,
       artist: req.body.artist,
@@ -82,7 +98,7 @@ app.post(
         title: req.body.title,
         artist: req.body.artist,
       }),
-      numImages: req.files["imaGalery"].length,
+      numImages: numImages,
       isExib: true,
     });
     console.log(newEntry);
@@ -118,27 +134,22 @@ app.post(
         console.error("Failed to convert image to webp format:", err);
       });
 
-    // // save the cover image to the folder
-    // const coverImagePath = path.join(
-    //   folderPath,
-    //   "cover" + path.extname(req.files["image"][0].originalname)
-    // );
-    // fs.writeFileSync(coverImagePath, req.files["image"][0].buffer);
-
     // create a subfolder for the gallery images
     const galFolderPath = path.join(folderPath, "gal", "L");
     fs.mkdirSync(galFolderPath, { recursive: true });
 
-    // save the gallery images to the subfolder
-    req.files["imaGalery"].forEach((image, index) => {
-      const galleryImageExtension = path.extname(image.originalname); // get the extension of the uploaded file
-      const paddedIndex = `${index + 1}`.padStart(2, "0"); // pad the index with leading zeros if it is less than 10
-      const galleryImagePath = path.join(
-        galFolderPath,
-        `${paddedIndex}${galleryImageExtension}`
-      ); // use the extension to create the filename
-      fs.writeFileSync(galleryImagePath, image.buffer);
-    });
+    // save the gallery images to the subfolder if there are any
+    if (newEntry.numImages != 0 ) {
+      req.files["imaGalery"].forEach((image, index) => {
+        const galleryImageExtension = path.extname(image.originalname); // get the extension of the uploaded file
+        const paddedIndex = `${index + 1}`.padStart(2, "0"); // pad the index with leading zeros if it is less than 10
+        const galleryImagePath = path.join(
+          galFolderPath,
+          `${paddedIndex}${galleryImageExtension}`
+        ); // use the extension to create the filename
+        fs.writeFileSync(galleryImagePath, image.buffer);
+      });
+    };
 
     // itt lesz az a kód ami puggal renderel egy html filet
     const eventRenderObject = {
@@ -160,8 +171,6 @@ app.post(
       "app/public/views/dinamikusEventPage.pug",
       { event: eventRenderObject }
     );
-    console.log("rendered html:");
-    console.log(renderedHtml);
     const filePath = path.join(
       __dirname,
       `app/public/exibs/${newEntry.directory}/eventPage.html`
@@ -175,17 +184,24 @@ app.post(
       }
     });
 
-    // a pugnak amúgy innen tudnánk a legkönnyebben küldeni egy arrayt,
-    // amiben csak annyi van, hogy ['01.png', '02.jpg', '03.jpeg', '04.png']
-
     // irj már valami minimális errorhandlinget legalább légyszike
     // és akkor lehet olyan, hogy ha a filedolgok errort dobnak akkor ne írj a débébe se és fordítva
     insertEntries(newEntry);
 
     console.log(filePath);
-    res.redirect(`/exibs/${newEntry.directory}/eventPage.html`);
-    // res.sendFile(filePath);
-    // res.send({ success: true });
+
+    
+    const checkFileInterval = setInterval(() => {
+      fs.access(coverImagePath, fs.constants.F_OK, (err) => {
+        if (!err) {
+          // The cover image file exists, clear the interval and redirect the user
+          clearInterval(checkFileInterval);
+          res.redirect(`/exibs/${newEntry.directory}/eventPage.html`);
+        } else {
+          console.log("Can't find the cover :(");
+        }
+      });
+    }, 100);
   }
 );
 
