@@ -381,10 +381,7 @@ section.programok {
 .progbox img {
   width: 39%;
   height: 400px;
-  margin-left: 100px;
-  margin-top: 33px;
-  margin-bottom: 33px;
-  margin-right: 50px;
+  margin: 33px 48px 33px 100px;
   float: left;
 
   object-fit: cover;
@@ -401,7 +398,9 @@ section.programok {
 .progbox p.italic {
   margin-right: 88px;
 
-  height: 12rem;
+  line-height: 1.5em;
+  max-height: calc(1.5em * 12);
+
   overflow: hidden;
 }
 
