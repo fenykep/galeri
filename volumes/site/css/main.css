@@ -296,6 +296,8 @@ section.kiallitasok {
 .exibcard {
   width: calc(33vw - 250px / 3);
   border: solid black 2px;
+  position: relative;
+  padding-bottom: 48px;
 }
 
 .eventexibcard {
@@ -325,17 +327,22 @@ section.kiallitasok {
 }
 
 .exibcard > button {
-  float: right;
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
 }
 
-.exibcard .leiras {
-  height: 9rem;
+.exibcardDescription {
+  line-height: 1.5em;
+  height: calc(1.5em * 6);
   overflow: hidden;
 }
 
 .exibcard img {
   width: calc(33vw - 250px / 3);
   width: 100%;
+  aspect-ratio: 1.9;
+  object-fit: cover;
 }
 
 section.artists {
@@ -402,6 +409,7 @@ section.programok {
   margin-left: 100px;
 }
 
+/*korábbi programok text*/
 .programok h1:nth-child(2) {
   position: absolute;
   left: calc(75% - 40px);
@@ -411,12 +419,24 @@ section.programok {
 
   margin: 0;
   margin-top: 20px;
+  cursor: pointer;
 }
 
-.programok > img {
+.programok h1:nth-child(2):hover + img {
+  transform: scaleX(1.6);
+}
+
+#eventArrow {
   position: relative;
   left: 20px;
   top: 100px;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(.73,-0.6,0,1.41);
+  transform-origin: left center;
+}
+
+#eventArrow:hover {
+  transform: scaleX(1.6);
 }
 
 section.kapcsolat {

@@ -117,7 +117,35 @@ app.post(
     const descriptionPath = path.join(folderPath, "description.txt");
     fs.writeFileSync(descriptionPath, req.body.description);
 
-    // save the cover image to the folder
+    // generate the cover images in these sizes, maybe leave out some?
+    const coverImageWidths = {
+      desktopCover: 1920,
+      desktopCard: 600,
+      tabletCover: 768,
+      tabletCard: 400,
+      mobileCover: 480,
+      mobileCard: 300
+    };
+
+    const lessCoverImgWidhts = {
+      l: 1980,
+      m: 768,
+      s: 480
+    }
+
+    // <img srcset="image-480.webp 480w, image-768.webp 768w, image-1920.webp 1920w"
+    //      sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33.3vw"
+    //      src="image-768.webp"
+    //      alt="Image description">
+
+    // later I'll write a gallery viewer that displays the images in full size
+    const galleryImageWidths = {
+      desktop: 600,
+      tablet: 400,
+      mobile: 300
+    }
+
+    // the destination file on the server
     const coverImagePath = path.join(folderPath, "cover.webp");
     // read uploaded image using sharp
     const uploadedCoverImage = sharp(req.files["image"][0].buffer);
@@ -160,8 +188,6 @@ app.post(
       description: req.body.description,
       numImages: newEntry.numImages,
       directory: newEntry.directory,
-      coverImageSrc: `${newEntry.directory}/cover.webp`,
-      galleryPath: `${newEntry.directory}/gal/L`,
     };
 
     console.log("eventRenderObject: ");

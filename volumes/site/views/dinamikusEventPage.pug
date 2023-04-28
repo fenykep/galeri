@@ -9,9 +9,10 @@ html(lang="hu")
 		include nav.pug
 		//- csangoborokazasborokaval
 		img(src=`/exibs/${event.directory}/cover.webp`).eventCover
+		//- img(srcset='sCover.webp 480w, mCover.webp 768w, lCover.webp 1920w' alt='Exhibition cover image')
 		main
-			h4 #{event.artist} - 
-			h4 #{event.title}
+			h1 #{event.artist} - 
+			h1 #{event.title}
 			p #{event.date.toISOString().substr(0, 10)}
 			.tags
 				each tag in event.tags

@@ -13,6 +13,6 @@ html(lang="hu")
 							img(src=`/exibs/${item.directory}/cover.webp`)
 							h4= item.title
 							p= item.date.toISOString().substr(0, 10)
-							p #{item.description}
+							p.exibcardDescription #{item.description}
 							button(onclick=`window.location.href='/exibs/${item.directory}/eventPage.html'`) bővebben
 	include footer.pug
