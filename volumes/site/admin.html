@@ -8,10 +8,10 @@
 	<title>Admin</title>
 </head>
 <body>
-	<img id="imagePreview" src="#" alt="Preview" style="">
+	<img id="imagePreview" src="#" alt="Borítókép" style="">
 	<form enctype="multipart/form-data" method="POST" action="/uploadEvent">
 		<label for="image">Cover Image:</label>
-		<input type="file" id="image" name="image"onchange="previewImage(event)" accept="image/*" required><br>
+		<input type="file" id="image" name="image" onchange="previewImage(event)" accept="image/*" required><br>
 
 		<label for="title">Exhibition Title:</label>
 		<input type="text" id="title" name="title" required placeholder="Cím"><br>
@@ -22,10 +22,20 @@
 		<label for="date">Opening Date:</label>
 		<input type="date" id="date" name="date" required><br>
 
+		<div class="eventOrExibSelector">
+			<input type="checkbox" onchange="EorE(event)" name="exOrEvCheckbox" checked>
+			<p>Kiállítás</p>
+		</div>
+
+		<div class="tagger">
+			<input type="text" placeholder="cimkék" name="newTag">
+			<input type="hidden" name="tagsList" id="formTagsList">
+			<div class="fakeBtn" onclick="addTag()">+</div>
+		</div>
 		
 		<input type="file" id="imaGalery" name="imaGalery" accept="image/*" multiple><br>
 		<label for="description">Exhibition Description:</label><br>
-		<textarea placeholder="Leírás..." id="description" name="description" rows="10" cols="50" required></textarea><br>
+		<textarea placeholder="Leírás..." id="description" name="description" rows="10" cols="50" required></textarea>
 
 		<input type="submit" value="Submit">
 	</form>
@@ -41,6 +51,25 @@
 			};
 			reader.readAsDataURL(input.files[0]);
 		}
+	}
+
+	function addTag(){
+		const root = document.querySelector(".tagger");
+		const newValue = document.querySelector(".tagger input[type='text']");
+		const tagsList = document.querySelector(".tagger input[type='hidden']");
+		if (newValue.value.length > 0) {
+			const newTag = document.createElement("p");
+			newTag.innerText = newValue.value;
+			root.appendChild(newTag);
+			tagsList.value += newValue.value+";";
+			console.log(tagsList.value);
+			newValue.value = "";
+		}
+	}
+
+	function EorE(event){
+		const textElement = document.querySelector(".eventOrExibSelector p");
+		event.target.checked ? textElement.innerText='Kiállítás' : textElement.innerText='Esemény';
 	}
 	</script>
 

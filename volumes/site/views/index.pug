@@ -7,3 +7,72 @@ html(lang="hu")
 	body
 		include nav.pug
 		main
+			section.about
+				img(src='img/externalGallery.jpeg')
+				h1 a három hét galériáról
+				p.
+					A Bartók Béla út 37. szám alatt található Három Hét Galéria Újbuda Kulturális Városközpontjának egyik elsőként megnyílt galériája. A Három Hét nevet egyszerűen a Galéria címe adta. Később a számokat ízlelgetve, azokkal játszva alakult ki az elképzelés, hogy a hármas, valamint a hetes szám több helyen is visszaköszönjön. Ezért úgy döntöttünk, hogy minden hónap 3. napján este 7 órakor megnyitót tartunk, amelyen egy-egy újabb művészre hívjuk fel a nagyközönség figyelmét.
+				p A Három Hét Galéria működési terve:
+				p.
+					A 2010 –ben nyílt galériában sok stílusirányzat megfordult, sokrétű volt a kiállítók listája. 2017-es évtől azonban egy markáns utat szeretnénk konzekvensen képviselni, s ez az irány a:
+				h2 GEOMETRIKUS, KONKRÉT- KONSTRUKTÍV MŰVÉSZET.
+			section.actual
+				img(src=`/exibs/${actualExib.directory}/cover.webp`)
+				h1 aktuális kiállítás
+				h3 #{actualExib.artist}
+				p= actualExib.date.toISOString().substr(0, 10)
+				p.italic #{actualExib.description}
+				button(onclick=`window.location.href='/exibs/${actualExib.directory}/eventPage.html'`) bővebben
+			section.kiallitasok
+				h1 kiállítások
+				.exibcards
+					each exib in pastExibs
+						.exibcard
+								img(src=`/exibs/${exib.directory}/cover.webp`)
+								h4 #{exib.title}
+								//- ezt is írd majd át ilyen hestegesre
+								p= exib.date.toISOString().substr(0, 10)
+								p.exibcardDescription #{exib.description}
+								button(onclick=`window.location.href='/exibs/${exib.directory}/eventPage.html'`) bővebben
+			section#muveszek.artists
+				h1 művészek
+				.artistcont
+					each artist in artists
+						.artistcard
+							img(src="img/img.png")
+							h4 Kemény György
+			section.programok
+				h1 programok
+				h1 korábbi programok rakj ide onclicket
+				img(src="img/longNyil.svg" onclick=var)
+				.progbox
+					img(src=`/exibs/${actualEvent.directory}/cover.webp`)
+					h3 #{actualEvent.title}
+					p #{actualEvent.date.toISOString().substr(0, 10)}
+					p #{actualExib.description}
+					button(onclick=`window.location.href='/events/${actualEvent.directory}/eventPage.html'`) bővebben
+			section.kapcsolat
+				h1 kapcsolat
+				.kapbubik
+					.kapbubi
+						a.kapico(href="tel:+36708664222")
+							img(src="img/phone.svg")
+							.bubcont
+								h4 telefon
+								p Bódis Andrea
+								p +36 70 866 4219
+					.kapbubi
+						a.kapico(href="mailto:andrea.bodis@haromhet.hu")
+							img(src="img/mail.svg")
+							.bubcont
+								h4 email
+								p andrea.bodis@haromhet.hu
+					.kapbubi
+						a.kapico(href="https://goo.gl/maps/ukptfM9ibBzpZ31U9")
+							img(src="img/address.svg")
+							.bubcont
+								h4 cím
+								p Budapest 1114
+								p Bartók Béla út 37.
+		img#mapfull(src="img/mapfull.png")
+	include footer.pug

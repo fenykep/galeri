@@ -5,6 +5,7 @@
 
 :root {
   --border: 2px;
+  --borderLine: solid black 2px;
 }
 
 :target::before {
@@ -62,7 +63,7 @@ button {
   text-transform: uppercase;
   background-color: white;
   color: black;
-  border: solid black 2px;
+  border: var(--borderLine);
   padding: 8px 16px 8px 16px;
 
   cursor: pointer;
@@ -204,10 +205,8 @@ nav > a:last-child {
   color: white;
   background-color: black;
 
+  border: var(--borderLine);
   border-radius: 10px;
-  border-style: solid;
-  border-color: black;
-  border-width: var(--border);
 
   text-align: center;
   padding-top: 5px;
@@ -295,7 +294,7 @@ section.kiallitasok {
 
 .exibcard {
   width: calc(33vw - 250px / 3);
-  border: solid black 2px;
+  border: var(--borderLine);
   position: relative;
   padding-bottom: 48px;
 }

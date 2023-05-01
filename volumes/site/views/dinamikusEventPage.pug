@@ -8,17 +8,19 @@ html(lang="hu")
 	body
 		include nav.pug
 		//- csangoborokazasborokaval
-		img(src=`/exibs/${event.directory}/cover.webp`).eventCover
+		img(src=`/${event.directory}/cover.webp`).eventCover
 		//- img(srcset='sCover.webp 480w, mCover.webp 768w, lCover.webp 1920w' alt='Exhibition cover image')
 		main
 			h1 #{event.artist} - 
 			h1 #{event.title}
 			p #{event.date.toISOString().substr(0, 10)}
-			.tags
-				each tag in event.tags
-					p #{tag}
-			p #{event.description}
+			if event.tags && event.tags.length
+				.tags
+					each tag in event.tags
+						if tag
+							p #{tag}
+			p!= event.description.replace(/\n/g, '<br>')
 			.galeri
 				each i in Array.from(Array(event.numImages).keys())
 					- const imageName = ('0' + (i + 1)).slice(-2) + '.jpg'
-					img(src=`/exibs/${event.directory}/gal/L/${imageName}`)
+					img(src=`/${event.directory}/gal/L/${imageName}`)

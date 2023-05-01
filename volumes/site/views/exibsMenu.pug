@@ -10,9 +10,9 @@ html(lang="hu")
 			.eventcont
 				each item in data
 					.exibcard
-							img(src=`/exibs/${item.directory}/cover.webp`)
+							img(src=`/${item.directory}/cover.webp`)
 							h4= item.title
 							p= item.date.toISOString().substr(0, 10)
 							p.exibcardDescription #{item.description}
-							button(onclick=`window.location.href='/exibs/${item.directory}/eventPage.html'`) bővebben
+							button(onclick=`window.location.href='/${item.directory}/eventPage.html'`) bővebben
 	include footer.pug

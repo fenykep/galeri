@@ -59,7 +59,7 @@ const entrySchema = new mongoose.Schema({
 
 const EntryModel = mongoose.model("Entry", entrySchema);
 
-function updateIndexPage(){
+function updateIndexPage() {
   const actualExib = {
     artist: newEntry.artist,
     title: newEntry.title,
@@ -70,8 +70,14 @@ function updateIndexPage(){
   // get description from directory and update
   // actualExib.description
 
-  const earlierExibs = [{},{},{}];
+  const pastExibs = [{}, {}, {}];
   const actualEvent = {};
+
+  const renderedHtml = pug.renderFile("app/public/views/index.pug", {
+    actualExib: actualExib,
+    pastExibs: pastExibs,
+    actualEvent: actualEvent,
+  });
 }
 
 app.get("/admin", (req, res) => {
@@ -88,29 +94,38 @@ app.post(
   "/uploadEvent",
   upload.fields([{ name: "image" }, { name: "imaGalery" }]),
   (req, res, next) => {
-    const numImages = req.files["imaGalery"] ? req.files["imaGalery"].length : 0; // Check if imaGalery files were uploaded
+    const numImages = req.files["imaGalery"]
+      ? req.files["imaGalery"].length
+      : 0; // Check if imaGalery files were uploaded
     const newEntry = new EntryModel({
       title: req.body.title,
       artist: req.body.artist,
       date: new Date(req.body.date),
-      tags: ["jovoben", "kitoltendo"],
-      directory: createString({
+      tags: req.body.tagsList
+        .slice(0, -1)
+        .split(";")
+        .map((tag) => tag.trim()),
+      directory: `${
+        req.body.exOrEvCheckbox === "on" ? "exibs" : "events"
+      }/${createString({
         title: req.body.title,
         artist: req.body.artist,
-      }),
+      })}`,
       numImages: numImages,
-      isExib: true,
+      isExib: req.body.exOrEvCheckbox === "on",
     });
-    console.log(newEntry);
+    console.log(req.body);
+    console.log("---------------");
+    console.log("isExib checkbox: " + req.body.exOrEvCheckbox);
+    console.log("---------------");
+    console.log(req.body.exOrEvCheckbox == "on" ? true : false);
+    console.log("---------------");
+
+    const eventOrExib = newEntry.isExib ? "exibs" : "events";
 
     // ezt majd írd át hogy működjön a konténerek és volumeok dirtreejével
     // create the subdirectory for the event
-    const folderPath = path.join(
-      __dirname,
-      "/app/public",
-      "exibs",
-      newEntry.directory
-    );
+    const folderPath = path.join(__dirname, "/app/public", newEntry.directory);
     fs.mkdirSync(folderPath);
 
     // write the description to a description.txt
@@ -124,14 +139,14 @@ app.post(
       tabletCover: 768,
       tabletCard: 400,
       mobileCover: 480,
-      mobileCard: 300
+      mobileCard: 300,
     };
 
     const lessCoverImgWidhts = {
       l: 1980,
       m: 768,
-      s: 480
-    }
+      s: 480,
+    };
 
     // <img srcset="image-480.webp 480w, image-768.webp 768w, image-1920.webp 1920w"
     //      sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33.3vw"
@@ -142,8 +157,8 @@ app.post(
     const galleryImageWidths = {
       desktop: 600,
       tablet: 400,
-      mobile: 300
-    }
+      mobile: 300,
+    };
 
     // the destination file on the server
     const coverImagePath = path.join(folderPath, "cover.webp");
@@ -167,7 +182,7 @@ app.post(
     fs.mkdirSync(galFolderPath, { recursive: true });
 
     // save the gallery images to the subfolder if there are any
-    if (newEntry.numImages != 0 ) {
+    if (newEntry.numImages != 0) {
       req.files["imaGalery"].forEach((image, index) => {
         const galleryImageExtension = path.extname(image.originalname); // get the extension of the uploaded file
         const paddedIndex = `${index + 1}`.padStart(2, "0"); // pad the index with leading zeros if it is less than 10
@@ -177,7 +192,7 @@ app.post(
         ); // use the extension to create the filename
         fs.writeFileSync(galleryImagePath, image.buffer);
       });
-    };
+    }
 
     // itt lesz az a kód ami puggal renderel egy html filet
     const eventRenderObject = {
@@ -197,10 +212,11 @@ app.post(
       "app/public/views/dinamikusEventPage.pug",
       { event: eventRenderObject }
     );
-    const filePath = path.join(
-      __dirname,
-      `app/public/exibs/${newEntry.directory}/eventPage.html`
-    );
+    // const filePath = path.join(
+    //   __dirname,
+    //   `app/public/exibs/${newEntry.directory}/eventPage.html`
+    // );
+    const filePath = path.join(folderPath, "eventPage.html");
     // Save the rendered HTML to the file
     fs.writeFile(filePath, renderedHtml, function (err) {
       if (err) {
@@ -216,13 +232,12 @@ app.post(
 
     console.log(filePath);
 
-    
     const checkFileInterval = setInterval(() => {
       fs.access(coverImagePath, fs.constants.F_OK, (err) => {
         if (!err) {
           // The cover image file exists, clear the interval and redirect the user
           clearInterval(checkFileInterval);
-          res.redirect(`/exibs/${newEntry.directory}/eventPage.html`);
+          res.redirect(`/${newEntry.directory}/eventPage.html`);
         } else {
           console.log("Can't find the cover :(");
         }
