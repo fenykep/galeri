@@ -1,0 +1,23 @@
+svg#sandwichMenu(onclick="openMenu()" viewBox="0 0 90 90")
+  line(x1="0" y1="15" x2="90" y2="15" stroke-width="12")
+  line(x1="0" y1="45" x2="90" y2="45" stroke-width="12")
+  line(x1="0" y1="75" x2="90" y2="75" stroke-width="12")
+
+script.
+  function openMenu() {
+    const menu = document.querySelector("nav");
+    const sandwich = document.querySelector("#sandwichMenu");
+    if (menu.style.display != "grid") {
+      sandwich.style.animation = "none";
+      sandwich.style.left = "160px";
+      sandwich.style.rotate = "90deg"
+      sandwich.style.opacity = "1";
+      menu.style.display = "grid";
+    } else {
+      sandwich.style.animation = "shake";
+      sandwich.style.left = "48px";
+      sandwich.style.rotate = "0deg";
+      sandwich.style.opacity = "0.35";
+      menu.style.display = "none";
+    }
+  }

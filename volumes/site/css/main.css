@@ -9,18 +9,12 @@
 }
 
 :target::before {
-  /* ez a cucc az anchorlinkeket headernyivel lejjebb dobja */
+  /*  this moves the anchorlinks down by 100px (size of the heade)*/
   content: "";
   display: block;
   height: 100px;
   margin: -100px 0 0;
 }
-
-/*
-kérd el a fb, mail, nyil stb svg-ket
-reszponziv font-size
-szélső 100px-es margó clamp
-*/
 
 @font-face {
   font-family: "regular";
@@ -48,6 +42,10 @@ html {
 
 body {
   margin: 0;
+}
+
+#sandwichMenu {
+  display: none;
 }
 
 main {
@@ -155,6 +153,7 @@ nav div {
 
 nav > a {
   height: 42px;
+  height: 100%;
 
   padding: calc(21px - 1rem);
   padding-left: 37px;
@@ -273,7 +272,8 @@ section.actual button {
 }
 
 section.actual > p.italic {
-  height: 10.5rem;
+  line-height: 1.5em;
+  height: calc(1.5em * 6);
   overflow: hidden;
 }
 
@@ -429,7 +429,7 @@ section.programok {
   left: 20px;
   top: 100px;
   cursor: pointer;
-  transition: transform 0.3s cubic-bezier(.73,-0.6,0,1.41);
+  transition: transform 0.3s cubic-bezier(0.73, -0.6, 0, 1.41);
   transform-origin: left center;
 }
 

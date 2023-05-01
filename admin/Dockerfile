@@ -1,4 +1,5 @@
 FROM node:18.16.0-slim
+ENV NODE_ENV production
 
 # This might make my build less deterministic, but just to be safe
 RUN apt-get update && apt-get upgrade -y
