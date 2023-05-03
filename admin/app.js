@@ -90,6 +90,38 @@ async function insertEntries(entries) {
   console.log(`Entries inserted: ${JSON.stringify(result.ops)}`);
 }
 
+
+// Resizes the provided file buffer into specified sizes and names in .webp format
+//  @param {Buffer} fileBuffer - The file buffer to be resized
+//  @param {Path} directoryPath - The path where the resized files should be saved to
+//  @param {Object} sizes - An object containing image names and their widths, for example: { L:1920, M:768, S:480 }
+//  @returns {Promise} A promise that resolves to an array of resized image buffers
+async function resizeAndSaveFile(fileBuffer, sizes) {
+  const sharpImage = sharp(fileBuffer);
+  const promises = [];
+
+  // const path = path.join('rootpath', $loopedname,webp)
+
+  // Iterate over sizes and create promises to resize the image for each size
+  for (const [name, width] of Object.entries(sizes)) {
+    const imageBuffer = await sharpImage.resize(width).webp().toBuffer();
+    promises.push(new Promise((resolve, reject) => {
+      fs.writeFile(`${name}.webp`, imageBuffer, (error) => {
+        if (error) {
+          console.log('volt azért egy error.');
+          console.log("");
+          reject(error);
+        } else {
+          resolve(imageBuffer);
+        }
+      });
+    }));
+  }
+
+  // Wait for all promises to resolve and return the array of resized image buffers
+  return Promise.all(promises);
+}
+
 app.post(
   "/uploadEvent",
   upload.fields([{ name: "image" }, { name: "imaGalery" }]),
@@ -97,6 +129,7 @@ app.post(
     const numImages = req.files["imaGalery"]
       ? req.files["imaGalery"].length
       : 0; // Check if imaGalery files were uploaded
+
     const newEntry = new EntryModel({
       title: req.body.title,
       artist: req.body.artist,
@@ -114,16 +147,10 @@ app.post(
       numImages: numImages,
       isExib: req.body.exOrEvCheckbox === "on",
     });
-    console.log(req.body);
-    console.log("---------------");
-    console.log("isExib checkbox: " + req.body.exOrEvCheckbox);
-    console.log("---------------");
-    console.log(req.body.exOrEvCheckbox == "on" ? true : false);
-    console.log("---------------");
+    console.log(newEntry);
 
     const eventOrExib = newEntry.isExib ? "exibs" : "events";
 
-    // ezt majd írd át hogy működjön a konténerek és volumeok dirtreejével
     // create the subdirectory for the event
     const folderPath = path.join(__dirname, "/app/public", newEntry.directory);
     fs.mkdirSync(folderPath);
@@ -132,20 +159,11 @@ app.post(
     const descriptionPath = path.join(folderPath, "description.txt");
     fs.writeFileSync(descriptionPath, req.body.description);
 
-    // generate the cover images in these sizes, maybe leave out some?
-    const coverImageWidths = {
-      desktopCover: 1920,
-      desktopCard: 600,
-      tabletCover: 768,
-      tabletCard: 400,
-      mobileCover: 480,
-      mobileCard: 300,
-    };
-
-    const lessCoverImgWidhts = {
-      l: 1980,
-      m: 768,
-      s: 480,
+    // generate the cover images in L M S sizes
+    const coverImgWidhts = {
+      cover: 1980,
+      coverM: 768,
+      coverS: 480,
     };
 
     // <img srcset="image-480.webp 480w, image-768.webp 768w, image-1920.webp 1920w"
@@ -153,29 +171,37 @@ app.post(
     //      src="image-768.webp"
     //      alt="Image description">
 
-    // later I'll write a gallery viewer that displays the images in full size
-    const galleryImageWidths = {
-      desktop: 600,
-      tablet: 400,
-      mobile: 300,
-    };
-
-    // the destination file on the server
+    // // the destination file on the server
     const coverImagePath = path.join(folderPath, "cover.webp");
-    // read uploaded image using sharp
-    const uploadedCoverImage = sharp(req.files["image"][0].buffer);
+    // // read uploaded image using sharp
+    // const uploadedCoverImage = sharp(req.files["image"][0].buffer);
 
-    // convert image to webp format
-    uploadedCoverImage
-      .webp({ quality: 100 })
-      .toBuffer()
-      .then((webpData) => {
-        // write webp data to file
-        fs.writeFileSync(coverImagePath, webpData);
+    // resizeAndSaveFile(req.files["image"][0].buffer, coverImgWidhts);
+
+    resizeAndSaveFile(req.files["image"][0].buffer, coverImgWidhts)
+      .then(resizedImageBuffers => {
+        // Save the resized images to disk
+        resizedImageBuffers.forEach((buffer, index) => {
+          const name = Object.keys(coverImgWidhts)[index];
+          console.log('ImageName: ' + name);
+          fs.writeFileSync(path.join(folderPath, `${name}.webp`), buffer);
+        });
       })
-      .catch((err) => {
-        console.error("Failed to convert image to webp format:", err);
+      .catch(error => {
+        console.error(error);
       });
+
+    // // convert image to webp format
+    // uploadedCoverImage
+    //   .webp({ quality: 100 })
+    //   .toBuffer()
+    //   .then((webpData) => {
+    //     // write webp data to file
+    //     fs.writeFileSync(coverImagePath, webpData);
+    //   })
+    //   .catch((err) => {
+    //     console.error("Failed to convert image to webp format:", err);
+    //   });
 
     // create a subfolder for the gallery images
     const galFolderPath = path.join(folderPath, "gal", "L");
