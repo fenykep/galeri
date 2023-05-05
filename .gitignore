@@ -5,3 +5,4 @@ dontRebuild.sh
 volumes/site/exibs/*
 volumes/site/events/*
 volumes/db/*
+todo.txt

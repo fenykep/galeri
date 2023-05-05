@@ -59,24 +59,97 @@ const entrySchema = new mongoose.Schema({
 
 const EntryModel = mongoose.model("Entry", entrySchema);
 
-function updateIndexPage() {
-  const actualExib = {
-    artist: newEntry.artist,
-    title: newEntry.title,
-    date: newEntry.date,
-    directory: newEntry.directory,
-  };
+async function getDescription(item) {
+  const descriptionFilePath = path.join(
+    __dirname,
+    "app",
+    "public",
+    item.directory,
+    "description.txt"
+  );
+  let description;
+  try {
+    description = await fs.readFileSync(descriptionFilePath, "utf-8");
+    return Promise.resolve(description);
+  } catch (error) {
+    console.error(`Error reading file ${descriptionFilePath}: ${error}`);
+    return Promise.resolve("No description available");
+  }
+}
+
+async function getEntries() {
+  try {
+    const actualExib = await EntryModel.findOne({ isExib: true }).sort({
+      Date: -1,
+    });
+    const pastExibs = await EntryModel.find({
+      isExib: true,
+      _id: { $ne: actualExib._id },
+    })
+      .sort({ Date: -1 })
+      .limit(3);
+    const actualEvent = await EntryModel.findOne({ isExib: false }).sort({
+      Date: -1,
+    });
+
+    const actualExibData = actualExib
+      ? {
+          ...actualExib.toObject(),
+          description: await getDescription(actualExib),
+        }
+      : null;
+
+    const pastExibsData = await Promise.all(
+      pastExibs.map(async (item) => {
+        return {
+          ...item.toObject(),
+          description: await getDescription(item),
+        };
+      })
+    );
+
+    const actualEventData = actualEvent
+      ? {
+          ...actualEvent.toObject(),
+          description: await getDescription(actualEvent),
+        }
+      : null;
+
+    return { actualExibData, pastExibsData, actualEventData };
+  } catch (error) {
+    console.error(`Error retrieving entries: ${error}`);
+    throw new Error("Internal server error");
+  }
+}
+
+async function updateIndexPage() {
+  // const actualExib = {
+  //   artist: newEntry.artist,
+  //   title: newEntry.title,
+  //   date: newEntry.date,
+  //   directory: newEntry.directory,
+  // };
 
   // get description from directory and update
   // actualExib.description
 
-  const pastExibs = [{}, {}, {}];
-  const actualEvent = {};
-
+  // const pastExibs = [{}, {}, {}];
+  // const actualEvent = {};
+  const { actualExibData, pastExibsData, actualEventData } = await getEntries();
   const renderedHtml = pug.renderFile("app/public/views/index.pug", {
-    actualExib: actualExib,
-    pastExibs: pastExibs,
-    actualEvent: actualEvent,
+    actualExib: actualExibData,
+    pastExibs: pastExibsData,
+    actualEvent: actualEventData,
+  });
+
+  const filePath = path.join(__dirname, "app/public/indexGen.html");
+  // Save the rendered HTML to the file
+  fs.writeFile(filePath, renderedHtml, function (err) {
+    if (err) {
+      console.error("Error saving file:", err);
+    } else {
+      console.log("File saved successfully");
+    }
   });
 }
 
@@ -84,12 +157,20 @@ app.get("/admin", (req, res) => {
   res.sendFile(path.join(__dirname, "app/public/admin.html"));
 });
 
+app.get(["/", "/index"], async (req, res) => {
+  res.sendFile(path.join(__dirname, "app/public/indexGen.html"));
+});
+
+app.get("/generalj", (req, res) => {
+  updateIndexPage();
+  res.sendFile(path.join(__dirname, "app/public/indexGen.html"));
+});
+
 async function insertEntries(entries) {
   // const result = await db.collection('entries').insertMany(entries);
   const result = await db.collection("entries").insertOne(entries);
   console.log(`Entries inserted: ${JSON.stringify(result.ops)}`);
 }
-
 
 // Resizes the provided file buffer into specified sizes and names in .webp format
 //  @param {Buffer} fileBuffer - The file buffer to be resized
@@ -105,17 +186,19 @@ async function resizeAndSaveFile(fileBuffer, sizes) {
   // Iterate over sizes and create promises to resize the image for each size
   for (const [name, width] of Object.entries(sizes)) {
     const imageBuffer = await sharpImage.resize(width).webp().toBuffer();
-    promises.push(new Promise((resolve, reject) => {
-      fs.writeFile(`${name}.webp`, imageBuffer, (error) => {
-        if (error) {
-          console.log('volt azért egy error.');
-          console.log("");
-          reject(error);
-        } else {
-          resolve(imageBuffer);
-        }
-      });
-    }));
+    promises.push(
+      new Promise((resolve, reject) => {
+        fs.writeFile(`${name}.webp`, imageBuffer, (error) => {
+          if (error) {
+            console.log("volt azért egy error.");
+            console.log("");
+            reject(error);
+          } else {
+            resolve(imageBuffer);
+          }
+        });
+      })
+    );
   }
 
   // Wait for all promises to resolve and return the array of resized image buffers
@@ -179,15 +262,15 @@ app.post(
     // resizeAndSaveFile(req.files["image"][0].buffer, coverImgWidhts);
 
     resizeAndSaveFile(req.files["image"][0].buffer, coverImgWidhts)
-      .then(resizedImageBuffers => {
+      .then((resizedImageBuffers) => {
         // Save the resized images to disk
         resizedImageBuffers.forEach((buffer, index) => {
           const name = Object.keys(coverImgWidhts)[index];
-          console.log('ImageName: ' + name);
+          console.log("ImageName: " + name);
           fs.writeFileSync(path.join(folderPath, `${name}.webp`), buffer);
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
       });
 
@@ -263,6 +346,7 @@ app.post(
         if (!err) {
           // The cover image file exists, clear the interval and redirect the user
           clearInterval(checkFileInterval);
+          updateIndexPage();
           res.redirect(`/${newEntry.directory}/eventPage.html`);
         } else {
           console.log("Can't find the cover :(");
