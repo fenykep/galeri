@@ -17,41 +17,41 @@ html(lang="hu")
 					A 2010 –ben nyílt galériában sok stílusirányzat megfordult, sokrétű volt a kiállítók listája. 2017-es évtől azonban egy markáns utat szeretnénk konzekvensen képviselni, s ez az irány a:
 				h2 GEOMETRIKUS, KONKRÉT- KONSTRUKTÍV MŰVÉSZET.
 			section.actual
-				img(src=`/exibs/${actualExib.directory}/cover.webp`)
+				img(src=`/${actualExib.directory}/cover.webp`)
 				h1 aktuális kiállítás
 				h3 #{actualExib.artist}
 				p= actualExib.date.toISOString().substr(0, 10)
 				p.italic #{actualExib.description}
-				button(onclick=`window.location.href='/exibs/${actualExib.directory}/eventPage.html'`) bővebben
+				button(onclick=`window.location.href='/${actualExib.directory}/eventPage.html'`) bővebben
 			section.kiallitasok
 				h1 kiállítások
 				.exibcards
 					each exib in pastExibs
 						.exibcard
-								img(src=`/exibs/${exib.directory}/cover.webp`)
+								img(src=`/${exib.directory}/cover.webp`)
 								h4 #{exib.title}
 								//- ezt is írd majd át ilyen hestegesre
 								p= exib.date.toISOString().substr(0, 10)
 								p.exibcardDescription #{exib.description}
-								button(onclick=`window.location.href='/exibs/${exib.directory}/eventPage.html'`) bővebben
+								button(onclick=`window.location.href='/${exib.directory}/eventPage.html'`) bővebben
 			section#muveszek.artists
 				h1 művészek
 				.artistcont
-					each artist in artists
+					each i in [1,2,3,4,5,6,7,8]
 						.artistcard
 							img(src="img/img.png")
 							h4 Kemény György
 			section.programok
 				h1 programok
-				h1 korábbi programok rakj ide onclicket
-				img(src="img/longNyil.svg" onclick=var)
+				h1 korábbi programok
+				img#eventArrow(src="img/longNyil.svg" onclick="window.location.href='events'")
 				.progbox
-					img(src=`/exibs/${actualEvent.directory}/cover.webp`)
+					img(src=`/${actualEvent.directory}/cover.webp`)
 					h3 #{actualEvent.title}
 					p #{actualEvent.date.toISOString().substr(0, 10)}
-					p #{actualExib.description}
-					button(onclick=`window.location.href='/events/${actualEvent.directory}/eventPage.html'`) bővebben
-			section.kapcsolat
+					p.italic #{actualExib.description}
+					button(onclick=`window.location.href='/${actualEvent.directory}/eventPage.html'`) bővebben
+			section#kapcsolat.kapcsolat
 				h1 kapcsolat
 				.kapbubik
 					.kapbubi
@@ -67,7 +67,7 @@ html(lang="hu")
 							.bubcont
 								h4 email
 								p andrea.bodis@haromhet.hu
-					.kapbubi
+					div#addric.kapbubi
 						a.kapico(href="https://goo.gl/maps/ukptfM9ibBzpZ31U9")
 							img(src="img/address.svg")
 							.bubcont

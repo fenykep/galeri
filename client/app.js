@@ -63,6 +63,10 @@ async function getEntries(isExib) {
   }
 }
 
+app.get(["/", "/index"], async (req, res) => {
+  res.sendFile(path.join(__dirname, "app/public/indexGen.html"));
+});
+
 app.get("/events", async (req, res) => {
   const data = await getEntries(false);
   res.render("exibsMenu", { data });
@@ -76,7 +80,7 @@ app.get("/exibs", async (req, res) => {
 // define a custom error handler middleware
 app.use((req, res) => {
   res.status(404);
-  res.render('404', { title: 'Page not found' });
+  res.render("404", { title: "Page not found" });
 });
 
 app.listen(3000, () => {
