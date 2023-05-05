@@ -4,5 +4,6 @@ dontRebuild.sh
 *node_modules/
 volumes/site/exibs/*
 volumes/site/events/*
+volumes/site/indexGen.html
 volumes/db/*
 todo.txt

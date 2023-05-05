@@ -59,9 +59,9 @@
 		const tagsList = document.querySelector(".tagger input[type='hidden']");
 		if (newValue.value.length > 0) {
 			const newTag = document.createElement("p");
-			newTag.innerText = newValue.value;
+			newTag.innerText = newValue.value.toLowerCase();
 			root.appendChild(newTag);
-			tagsList.value += newValue.value+";";
+			tagsList.value += newValue.value.toLowerCase()+";";
 			console.log(tagsList.value);
 			newValue.value = "";
 		}
