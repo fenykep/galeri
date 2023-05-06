@@ -93,15 +93,16 @@ textarea {
 }
 
 #imagePreview {
-  --stripeColorOne: #fff9b9;
-  --stripeColorTwo: #6c8ebf;
-  --stripeWidthSingle: 20px;
+  filter: blur(5px);
+  --stripeColorOne: white;
+  --stripeColorTwo: black;
+  --stripeWidthSingle: 40px;
   width: 100vw;
   height: 30vh;
   object-fit: cover;
   display: block;
   background: repeating-linear-gradient(
-    45deg,
+    -45deg,
     var(--stripeColorOne),
     var(--stripeColorOne) var(--stripeWidthSingle),
     var(--stripeColorTwo) var(--stripeWidthSingle),

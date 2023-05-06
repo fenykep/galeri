@@ -48,6 +48,7 @@
 				const preview = document.getElementById("imagePreview");
 				preview.src = e.target.result;
 				preview.style.display = "block";
+				preview.style.filter = "none";
 			};
 			reader.readAsDataURL(input.files[0]);
 		}

@@ -1,7 +1,4 @@
-/*@import "mobil.css";*/
-@import "mobil.css" screen and (orientation: portrait);
-
-/*@import "mobil.css" screen and (max-width: 768px);*/
+/*@import "mobil.css" screen and (orientation: portrait);*/
 
 :root {
   --border: 2px;

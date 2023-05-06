@@ -356,6 +356,6 @@ app.post(
   }
 );
 
-app.listen(3000, () => {
-  console.log("Admin server started on port 3000 (expd on 3001)");
+app.listen(3001, () => {
+  console.log("Admin server started on port 3001 (not expd)");
 });
