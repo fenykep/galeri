@@ -1,8 +1,8 @@
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 const express = require("express");
 const path = require("path");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const { promises: fs } = require("fs");
+const fs = require("fs");
 
 const app = express();
 app.use(bodyParser.json());
@@ -28,6 +28,26 @@ const entrySchema = new mongoose.Schema({
   isExib: Boolean,
 });
 
+// remove this later, only until we have generated all the artists
+async function getDescription(artistDir) {
+  const descriptionFilePath = path.join(
+    __dirname,
+    "app",
+    "public",
+    "artists",
+    artistDir,
+    "description.txt"
+  );
+  let description;
+  try {
+    description = await fs.readFileSync(descriptionFilePath, "utf-8");
+    return Promise.resolve(description);
+  } catch (error) {
+    console.error(`Error reading file ${descriptionFilePath}: ${error}`);
+    return Promise.resolve("Róla még nem regéltek a krónikák");
+  }
+}
+
 const EntryModel = mongoose.model("Entry", entrySchema);
 
 app.use(express.static("app/public"));
@@ -49,10 +69,10 @@ async function getEntries(isExib) {
         );
         let description;
         try {
-          description = await fs.readFile(descriptionFilePath, "utf-8");
+          description = await fs.readFileSync(descriptionFilePath, "utf-8");
         } catch (error) {
           console.error(`Error reading file ${descriptionFilePath}: ${error}`);
-          description = "No description available";
+          description = "Ezt az eseményt nem írtuk (még) le.";
         }
         return { ...item.toObject(), description };
       })
@@ -65,9 +85,24 @@ async function getEntries(isExib) {
   }
 }
 
-// app.get(["/", "/index"], async (req, res) => {
-//   res.sendFile(path.join(__dirname, "app/public/indexGen.html"));
-// });
+app.get("/artist/:artistname", async (req, res) => {
+  const deSanitizerDict = {
+      'claudemonet': 'Claude Monet',
+      'georgiaokeeffe': "Georgia O'Keeffe",
+      'fridakahlo': 'Frida Kahlo',
+      'kemnygyrgy': 'Kemény György',
+      'pablopicasso': 'Pablo Picasso',
+      'yayoikusama': 'Yayoi Kusama',
+      'marycassatt': 'Mary Cassatt',
+      'vincentvangogh': 'Vincent van Gogh'
+    };
+  const artistName = req.params.artistname;
+  // const artistDirectory = artistName.replace(/\W+/g, '').toLowerCase();
+
+  const description = await getDescription(artistName);
+  res.render("artistPage", { name: deSanitizerDict[artistName], directory: artistName, description: description });
+});
+
 
 app.get("/events", async (req, res) => {
   const data = await getEntries(false);
@@ -78,13 +113,6 @@ app.get("/exibs", async (req, res) => {
   const data = await getEntries(true);
   res.render("exibsMenu", { data });
 });
-
-// define a custom error handler middleware
-// depreciated with the nginx proxy
-// app.use((req, res) => {
-//   res.status(404);
-//   res.render("404", { title: "Page not found" });
-// });
 
 app.listen(3000, () => {
   console.log("Server started on port 3000.");

@@ -31,6 +31,8 @@ services:
     volumes:
       - "./volumes/db:/data/db"
       - "./database/mongod.conf:/etc/mongod.conf"
+    ports:
+      - "27017:27017"
     networks:
       default:
         ipv4_address: 172.19.0.5

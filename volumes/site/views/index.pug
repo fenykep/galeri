@@ -37,10 +37,11 @@ html(lang="hu")
 			section#muveszek.artists
 				h1 művészek
 				.artistcont
-					each i in [1,2,3,4,5,6,7,8]
-						.artistcard
-							img(src="img/img.png")
-							h4 Kemény György
+					each artist in ['Claude Monet', "Georgia O'Keeffe", 'Frida Kahlo', 'Kemény György', 'Pablo Picasso', 'Yayoi Kusama', 'Mary Cassatt', 'Vincent van Gogh']
+						- const directoryName = artist.replace(/\W+/g, '').toLowerCase()
+						.artistcard(onclick=`window.location.href='/artist/${directoryName}'`)
+							img(src=`/artists/${directoryName}/artist.jpg`)
+							h4= artist
 			section.programok
 				h1 programok
 				h1 korábbi programok

@@ -1,8 +1,8 @@
-const express = require("express");
-const path = require("path");
 const mongoose = require("mongoose");
+const express = require("express");
 const multer = require("multer");
 const sharp = require("sharp");
+const path = require("path");
 const pug = require("pug");
 const fs = require("fs");
 
@@ -73,7 +73,7 @@ async function getDescription(item) {
     return Promise.resolve(description);
   } catch (error) {
     console.error(`Error reading file ${descriptionFilePath}: ${error}`);
-    return Promise.resolve("No description available");
+    return Promise.resolve("Ezt az eseményt nem írtuk (még) le.");
   }
 }
 
@@ -201,6 +201,7 @@ app.post(
       ? req.files["imaGalery"].length
       : 0; // Check if imaGalery files were uploaded
 
+
     const newEntry = new EntryModel({
       title: req.body.title,
       artist: req.body.artist,
@@ -237,18 +238,9 @@ app.post(
       coverS: 480,
     };
 
-    // <img srcset="image-480.webp 480w, image-768.webp 768w, image-1920.webp 1920w"
-    //      sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33.3vw"
-    //      src="image-768.webp"
-    //      alt="Image description">
-
     // // the destination file on the server
     const coverImagePath = path.join(folderPath, "cover.webp");
-    // // read uploaded image using sharp
-    // const uploadedCoverImage = sharp(req.files["image"][0].buffer);
-
-    // resizeAndSaveFile(req.files["image"][0].buffer, coverImgWidhts);
-
+    
     resizeAndSaveFile(req.files["image"][0].buffer, coverImgWidhts)
       .then((resizedImageBuffers) => {
         // Save the resized images to disk
@@ -261,18 +253,6 @@ app.post(
       .catch((error) => {
         console.error(error);
       });
-
-    // // convert image to webp format
-    // uploadedCoverImage
-    //   .webp({ quality: 100 })
-    //   .toBuffer()
-    //   .then((webpData) => {
-    //     // write webp data to file
-    //     fs.writeFileSync(coverImagePath, webpData);
-    //   })
-    //   .catch((err) => {
-    //     console.error("Failed to convert image to webp format:", err);
-    //   });
 
     // create a subfolder for the gallery images
     const galFolderPath = path.join(folderPath, "gal", "L");
@@ -291,7 +271,6 @@ app.post(
       });
     }
 
-    // itt lesz az a kód ami puggal renderel egy html filet
     const eventRenderObject = {
       artist: newEntry.artist,
       title: newEntry.title,
@@ -309,10 +288,7 @@ app.post(
       "app/public/views/dinamikusEventPage.pug",
       { event: eventRenderObject }
     );
-    // const filePath = path.join(
-    //   __dirname,
-    //   `app/public/exibs/${newEntry.directory}/eventPage.html`
-    // );
+    
     const filePath = path.join(folderPath, "eventPage.html");
     // Save the rendered HTML to the file
     fs.writeFile(filePath, renderedHtml, function (err) {

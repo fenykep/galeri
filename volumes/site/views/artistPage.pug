@@ -1,0 +1,21 @@
+doctype html
+html(lang="hu")
+	head
+		title 3hétGaléria
+		link(href='/css/main.css', rel='stylesheet')
+		link(href='/css/artist.css', rel='stylesheet')
+		meta(charset='utf-8')
+	body
+		include sandwichMenu.pug
+		include nav.pug
+		main
+			section.artistDesc
+				img(src=`/artists/${directory}/artist.jpg`).artistImg
+				h1= name 
+				p.birthDate 1966-03-11
+				p!= description.replace(/\n/g, '<br>')
+			section.artistGallery
+				each i in [1,2,3,4,5,6,7,8]
+					img(src="/img/img.png")
+				
+

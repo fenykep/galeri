@@ -8,3 +8,4 @@ volumes/site/indexGen.html
 volumes/db/*
 todo.txt
 .prettierignore
+*.py

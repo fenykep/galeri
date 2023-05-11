@@ -1,4 +1,4 @@
-/*@import "mobil.css" screen and (orientation: portrait);*/
+@import "mobil.css" screen and (orientation: portrait);
 
 :root {
   --border: 2px;
@@ -362,6 +362,8 @@ section.artists {
 .artistcard img {
   width: calc(25vw - 275px / 4);
   cursor: pointer;
+  aspect-ratio: 1;
+  object-fit: cover;
 }
 
 section.programok {
