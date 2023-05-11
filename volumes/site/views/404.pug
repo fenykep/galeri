@@ -10,9 +10,4 @@ html(lang="en")
     main.notFound
       h1 404 Not Found
       p The page you are looking for doesn't exist or an error occurred.
-      button(type="button") Go Back Home
-    script.
-      const button = document.querySelector('button');
-      button.addEventListener('click', () => {
-        window.location.href = '/';
-      });
+      button(onclick="window.location.href='/'") Go Back Home

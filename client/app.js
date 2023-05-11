@@ -34,7 +34,9 @@ app.use(express.static("app/public"));
 
 async function getEntries(isExib) {
   try {
-    const entry = await EntryModel.find({ isExib });
+    const entry = await EntryModel.find({ isExib }).sort({
+      date: -1,
+    });
 
     const data = await Promise.all(
       entry.map(async (item) => {
@@ -63,9 +65,9 @@ async function getEntries(isExib) {
   }
 }
 
-app.get(["/", "/index"], async (req, res) => {
-  res.sendFile(path.join(__dirname, "app/public/indexGen.html"));
-});
+// app.get(["/", "/index"], async (req, res) => {
+//   res.sendFile(path.join(__dirname, "app/public/indexGen.html"));
+// });
 
 app.get("/events", async (req, res) => {
   const data = await getEntries(false);
@@ -78,10 +80,11 @@ app.get("/exibs", async (req, res) => {
 });
 
 // define a custom error handler middleware
-app.use((req, res) => {
-  res.status(404);
-  res.render("404", { title: "Page not found" });
-});
+// depreciated with the nginx proxy
+// app.use((req, res) => {
+//   res.status(404);
+//   res.render("404", { title: "Page not found" });
+// });
 
 app.listen(3000, () => {
   console.log("Server started on port 3000.");

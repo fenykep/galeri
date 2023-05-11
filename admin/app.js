@@ -80,16 +80,16 @@ async function getDescription(item) {
 async function getEntries() {
   try {
     const actualExib = await EntryModel.findOne({ isExib: true }).sort({
-      Date: -1,
+      date: -1,
     });
     const pastExibs = await EntryModel.find({
       isExib: true,
       _id: { $ne: actualExib._id },
     })
-      .sort({ Date: -1 })
+      .sort({ date: -1 })
       .limit(3);
     const actualEvent = await EntryModel.findOne({ isExib: false }).sort({
-      Date: -1,
+      date: -1,
     });
 
     const actualExibData = actualExib
@@ -123,18 +123,6 @@ async function getEntries() {
 }
 
 async function updateIndexPage() {
-  // const actualExib = {
-  //   artist: newEntry.artist,
-  //   title: newEntry.title,
-  //   date: newEntry.date,
-  //   directory: newEntry.directory,
-  // };
-
-  // get description from directory and update
-  // actualExib.description
-
-  // const pastExibs = [{}, {}, {}];
-  // const actualEvent = {};
   const { actualExibData, pastExibsData, actualEventData } = await getEntries();
   const renderedHtml = pug.renderFile("app/public/views/index.pug", {
     actualExib: actualExibData,
@@ -356,6 +344,6 @@ app.post(
   }
 );
 
-app.listen(3001, () => {
-  console.log("Admin server started on port 3001 (not expd)");
+app.listen(2967, () => {
+  console.log("Admin server started on port 2967 (not expd)");
 });

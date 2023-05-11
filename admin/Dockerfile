@@ -17,7 +17,7 @@ RUN npm install production
 COPY . .
 
 # Set the container to listen on port 3000
-EXPOSE 3000
+EXPOSE 2967
 
 # Run the command to start the server
 CMD ["dumb-init", "npm", "start"]

@@ -7,3 +7,4 @@ volumes/site/events/*
 volumes/site/indexGen.html
 volumes/db/*
 todo.txt
+.prettierignore

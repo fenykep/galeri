@@ -1,5 +1,7 @@
 version: '3'
 
+name: galeri
+
 services:
   client:
     build: ./client
@@ -8,6 +10,9 @@ services:
       - "./volumes/site:/app/public"
     depends_on:
       - database
+    networks:
+      default:
+        ipv4_address: 172.19.0.4
 
   admin:
     build: ./admin
@@ -16,6 +21,9 @@ services:
       - "./volumes/site:/app/public"
     depends_on:
       - database
+    networks:
+      default:
+        ipv4_address: 172.19.0.3
 
   database:
     build: ./database
@@ -23,6 +31,9 @@ services:
     volumes:
       - "./volumes/db:/data/db"
       - "./database/mongod.conf:/etc/mongod.conf"
+    networks:
+      default:
+        ipv4_address: 172.19.0.5
 
   nginx:
       image: nginx:latest
@@ -34,4 +45,13 @@ services:
       depends_on:
         - admin
         - client
+      networks:
+        default:
+          ipv4_address: 172.19.0.2
 
+networks:
+  default:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.19.0.0/28

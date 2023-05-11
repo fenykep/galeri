@@ -1,5 +1,5 @@
 .notFound {
-  border: solid 3px black;
+  border: solid 15px black;
   /* width: fit-content; */
   display: flex;
   flex-direction: column;
