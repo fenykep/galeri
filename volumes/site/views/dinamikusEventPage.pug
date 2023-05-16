@@ -22,5 +22,5 @@ html(lang="hu")
 			p!= event.description.replace(/\n/g, '<br>')
 			.galeri
 				each i in Array.from(Array(event.numImages).keys())
-					- const imageName = ('0' + (i + 1)).slice(-2) + '.jpg'
+					- const imageName = ('0' + (i + 1)).slice(-2) + '.webp'
 					img(src=`/${event.directory}/gal/L/${imageName}`)

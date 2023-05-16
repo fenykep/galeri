@@ -39,9 +39,8 @@ app.use(express.static("app/public"));
 app.set("views", "app/public/views"); // set the views directory
 app.set("view engine", "pug"); // use pug to  render the pug files
 
-
 const mongodbAdminPassword = process.env.MONGODB_ADMIN_PASSWORD;
-const admintUri = `mongodb://admin:${mongodbAdminPassword}@dbServer:27017/galeriDB`
+const adminUri = `mongodb://admin:${mongodbAdminPassword}@dbServer:27017/galeriDB`;
 
 mongoose
   .connect(adminUri, {
@@ -49,10 +48,10 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    console.log('Connected to MongoDB as admin');
+    console.log("Connected to MongoDB as admin");
   })
   .catch((error) => {
-    console.error('Error connecting to MongoDB as admin:', error);
+    console.error("Error connecting to MongoDB as admin:", error);
   });
 
 // mongoose.connect(`mongodb://admin:11Jelszo@dbServer:27017/galeriDB`, {

@@ -1,7 +1,8 @@
-FROM node:18.16.0-slim
+#FROM node:18.16.0-slim
 # the first line is for the online image
 # the one below is for the local version
-# FROM galeri-admin:latest
+FROM galeri-admin:latest
+
 ENV NODE_ENV production
 
 # This might make my build less deterministic, but just to be safe

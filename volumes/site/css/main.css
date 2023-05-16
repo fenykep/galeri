@@ -197,12 +197,15 @@ nav > a:last-child {
   width: 40px;
 }
 
-.szocblok a:last-child {
+.szocblok .langs {
+  display: none;
+
   color: white;
   background-color: black;
 
   border: var(--borderLine);
   border-radius: 10px;
+  
 
   text-align: center;
   padding-top: 5px;
@@ -213,7 +216,7 @@ nav > a:last-child {
   transition: background 0.4s, color 0.4s;
 }
 
-.szocblok a:last-child:hover {
+.szocblok .langs:hover {
   color: black;
   background-color: white;
 }

@@ -11,7 +11,7 @@ app.set("views", "app/public/views"); // set the views directory
 app.set("view engine", "pug"); // use pug to  render the pug files
 
 const mongodbClientPassword = process.env.MONGODB_CLIENT_PASSWORD;
-const clientUri = `mongodb://client:${mongodbClientPassword}@dbServer:27017/galeriDB`
+const clientUri = `mongodb://client:${mongodbClientPassword}@dbServer:27017/galeriDB`;
 
 mongoose
   .connect(clientUri, {
@@ -19,10 +19,10 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    console.log('Connected to MongoDB as client');
+    console.log("Connected to MongoDB as client");
   })
   .catch((error) => {
-    console.error('Error connecting to MongoDB as client:', error);
+    console.error("Error connecting to MongoDB as client:", error);
   });
 
 const db = mongoose.connection;
