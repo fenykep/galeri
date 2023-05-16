@@ -39,10 +39,26 @@ app.use(express.static("app/public"));
 app.set("views", "app/public/views"); // set the views directory
 app.set("view engine", "pug"); // use pug to  render the pug files
 
-mongoose.connect("mongodb://admin:11Jelszo@dbServer:27017/galeriDB", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+
+const mongodbAdminPassword = process.env.MONGODB_ADMIN_PASSWORD;
+const admintUri = `mongodb://admin:${mongodbAdminPassword}@dbServer:27017/galeriDB`
+
+mongoose
+  .connect(adminUri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log('Connected to MongoDB as admin');
+  })
+  .catch((error) => {
+    console.error('Error connecting to MongoDB as admin:', error);
+  });
+
+// mongoose.connect(`mongodb://admin:11Jelszo@dbServer:27017/galeriDB`, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// });
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
@@ -201,7 +217,6 @@ app.post(
       ? req.files["imaGalery"].length
       : 0; // Check if imaGalery files were uploaded
 
-
     const newEntry = new EntryModel({
       title: req.body.title,
       artist: req.body.artist,
@@ -240,7 +255,7 @@ app.post(
 
     // // the destination file on the server
     const coverImagePath = path.join(folderPath, "cover.webp");
-    
+
     resizeAndSaveFile(req.files["image"][0].buffer, coverImgWidhts)
       .then((resizedImageBuffers) => {
         // Save the resized images to disk
@@ -288,7 +303,7 @@ app.post(
       "app/public/views/dinamikusEventPage.pug",
       { event: eventRenderObject }
     );
-    
+
     const filePath = path.join(folderPath, "eventPage.html");
     // Save the rendered HTML to the file
     fs.writeFile(filePath, renderedHtml, function (err) {

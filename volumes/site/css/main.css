@@ -497,9 +497,9 @@ section.kapcsolat {
   left: 0;
 }
 
-#terkep {
+#mapfull {
   width: 100%;
-  margin-top: 74px;
+  margin-top: 48px;
 }
 
 .eventcard {
@@ -510,10 +510,6 @@ section.kapcsolat {
 
 .eventcard img {
   width: 600px;
-}
-
-#mapson {
-  width: 100%;
 }
 
 footer {

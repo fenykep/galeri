@@ -9,3 +9,4 @@ volumes/db/*
 todo.txt
 .prettierignore
 *.py
+*.env

@@ -10,10 +10,20 @@ app.use(bodyParser.json());
 app.set("views", "app/public/views"); // set the views directory
 app.set("view engine", "pug"); // use pug to  render the pug files
 
-mongoose.connect("mongodb://client:1jelszo@dbServer:27017/galeriDB", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const mongodbClientPassword = process.env.MONGODB_CLIENT_PASSWORD;
+const clientUri = `mongodb://client:${mongodbClientPassword}@dbServer:27017/galeriDB`
+
+mongoose
+  .connect(clientUri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log('Connected to MongoDB as client');
+  })
+  .catch((error) => {
+    console.error('Error connecting to MongoDB as client:', error);
+  });
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
@@ -87,22 +97,25 @@ async function getEntries(isExib) {
 
 app.get("/artist/:artistname", async (req, res) => {
   const deSanitizerDict = {
-      'claudemonet': 'Claude Monet',
-      'georgiaokeeffe': "Georgia O'Keeffe",
-      'fridakahlo': 'Frida Kahlo',
-      'kemnygyrgy': 'Kemény György',
-      'pablopicasso': 'Pablo Picasso',
-      'yayoikusama': 'Yayoi Kusama',
-      'marycassatt': 'Mary Cassatt',
-      'vincentvangogh': 'Vincent van Gogh'
-    };
+    claudemonet: "Claude Monet",
+    georgiaokeeffe: "Georgia O'Keeffe",
+    fridakahlo: "Frida Kahlo",
+    kemnygyrgy: "Kemény György",
+    pablopicasso: "Pablo Picasso",
+    yayoikusama: "Yayoi Kusama",
+    marycassatt: "Mary Cassatt",
+    vincentvangogh: "Vincent van Gogh",
+  };
   const artistName = req.params.artistname;
   // const artistDirectory = artistName.replace(/\W+/g, '').toLowerCase();
 
   const description = await getDescription(artistName);
-  res.render("artistPage", { name: deSanitizerDict[artistName], directory: artistName, description: description });
+  res.render("artistPage", {
+    name: deSanitizerDict[artistName],
+    directory: artistName,
+    description: description,
+  });
 });
-
 
 app.get("/events", async (req, res) => {
   const data = await getEntries(false);
