@@ -11,7 +11,8 @@ form input[type="file"] {
   margin: 1rem 0 48px 0;
 }
 
-form input[type="text"], form input[type="password"] {
+form input[type="text"],
+form input[type="password"] {
   font-family: bold, sans-serif;
   /*	text-transform: uppercase;*/
   margin: 0;
@@ -100,7 +101,6 @@ form input[type="submit"] {
   height: 37px;
   cursor: pointer;
 }
-
 
 #imagePreview {
   filter: blur(5px);
