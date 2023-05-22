@@ -74,7 +74,7 @@
         required
       ></textarea>
 
-      <input type="password" placeholder="jelszó" name="http_password" />
+      <input type="password" placeholder="csináljunk_valami_izgi_új_programot" name="entered_password" value="223af8b6a83000644b0526784dd8859b0f09b0aa" required/>
       <input type="submit" value="Küldés" />
     </form>
     <script>
@@ -133,10 +133,10 @@
                 width = maxWidth;
               }
 
-              // if (height > maxHeight) {
-              //   width *= maxHeight / height;
-              //   height = maxHeight;
-              // }
+              if (height > maxHeight) {
+                width *= maxHeight / height;
+                height = maxHeight;
+              }
 
               // Set the canvas dimensions
               canvas.width = width;

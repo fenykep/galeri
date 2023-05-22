@@ -35,6 +35,8 @@ services:
     volumes:
       - "./volumes/db:/data/db"
       - "./database/mongod.conf:/etc/mongod.conf"
+    env_file:
+      - .env
     ports:
       - "27017:27017"
     networks:

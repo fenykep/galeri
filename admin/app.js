@@ -39,6 +39,8 @@ app.use(express.static("app/public"));
 app.set("views", "app/public/views"); // set the views directory
 app.set("view engine", "pug"); // use pug to  render the pug files
 
+const http_password = process.env.SELFPOST_SECRET;
+
 const mongodbAdminPassword = process.env.MONGODB_ADMIN_PASSWORD;
 const adminUri = `mongodb://admin:${mongodbAdminPassword}@dbServer:27017/galeriDB`;
 
@@ -212,6 +214,11 @@ app.post(
   "/uploadEvent",
   upload.fields([{ name: "image" }, { name: "imaGalery" }]),
   (req, res, next) => {
+
+    if (req.body.entered_password != http_password) {
+      res.send(401);
+      throw new Error("Illetékteleneknek belépni tilos.");
+    }
     const numImages = req.files["imaGalery"]
       ? req.files["imaGalery"].length
       : 0; // Check if imaGalery files were uploaded
@@ -324,7 +331,7 @@ app.post(
         if (!err) {
           // The cover image file exists, clear the interval and redirect the user
           clearInterval(checkFileInterval);
-          updateIndexPage();
+          // updateIndexPage();
           res.redirect(`/${newEntry.directory}/eventPage.html`);
         } else {
           console.log("Can't find the cover :(");

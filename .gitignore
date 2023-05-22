@@ -1,4 +1,3 @@
-dontRebuild.sh
 *.DS_Store
 *.mock
 *node_modules/
@@ -10,3 +9,4 @@ todo.txt
 .prettierignore
 *.py
 *.env
+*.sh
