@@ -1,0 +1,121 @@
+:root {
+  --borderLine: solid black 2px;
+}
+
+form {
+  padding: 0 48px;
+  padding-bottom: 40px;
+}
+
+form input[type="file"] {
+  margin: 1rem 0 48px 0;
+}
+
+form input[type="text"],
+form input[type="password"] {
+  font-family: bold, sans-serif;
+  /*	text-transform: uppercase;*/
+  margin: 0;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  border: var(--borderLine);
+}
+
+form input[type="date"] {
+  border: var(--borderLine);
+}
+
+form label {
+  display: none;
+}
+
+.eventOrExibSelector {
+  display: flex;
+  flex-direction: row;
+  margin: 1.5em 0;
+}
+
+.eventOrExibSelector input {
+  width: 1.5em;
+  margin: 0;
+  margin-right: 12px;
+}
+
+.eventOrExibSelector p {
+  font-size: 1.5em;
+  margin: 0;
+}
+
+.tagger {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.tagger > * {
+  box-sizing: border-box;
+  height: 32px;
+}
+
+.tagger input[type="text"] {
+  width: 150px;
+  font-family: regular, sans-serif;
+  margin: 0;
+}
+
+.tagger p {
+  border: var(--borderLine);
+  padding: 5px 10px;
+  margin: 0;
+}
+
+.fakeBtn {
+  cursor: pointer;
+  font-size: 2em;
+  line-height: 1em;
+  height: 32px;
+  width: 32px;
+  text-align: center;
+  border: var(--borderLine);
+  font-family: bold, sans-serif;
+}
+
+.tagger .fakeBtn {
+  margin-right: 12px;
+  margin-left: -6px;
+}
+
+form textarea {
+  resize: none;
+  font-family: "regular";
+  width: 100%;
+  border: var(--borderLine);
+}
+
+form input[type="submit"] {
+  border: var(--borderLine);
+  background: white;
+  font-size: 1.5rem;
+  box-sizing: border-box;
+  height: 37px;
+  cursor: pointer;
+}
+
+#imagePreview {
+  filter: blur(5px);
+  --stripeColorOne: white;
+  --stripeColorTwo: black;
+  --stripeWidthSingle: 40px;
+  width: 100vw;
+  height: 30vh;
+  object-fit: cover;
+  display: block;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--stripeColorOne),
+    var(--stripeColorOne) var(--stripeWidthSingle),
+    var(--stripeColorTwo) var(--stripeWidthSingle),
+    var(--stripeColorTwo) calc(var(--stripeWidthSingle) * 2)
+  );
+}

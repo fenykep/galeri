@@ -1,6 +1,0 @@
-ID	artist	title		date		tags
-23	Baricz	hullanas	22/01/13	clay;light
-
-//a textbody mindig az event mappájában van txbdy.txt néven
-//a coverimg ugyanitt coverimg[L/M/S].png néven
-//az event mappája lovercase,stripped title+yymmdd

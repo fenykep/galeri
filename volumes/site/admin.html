@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link href="/css/main.css" rel="stylesheet" />
+    <link href="/css/admin.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin</title>
+  </head>
+  <body>
+    <img id="imagePreview" src="#" alt="Borítókép" style="" />
+    <form enctype="multipart/form-data" method="POST" action="/uploadEvent">
+      <label for="image">Cover Image:</label>
+      <input
+        type="file"
+        id="image"
+        name="image"
+        onchange="previewImage(event)"
+        accept="image/*"
+        required
+      /><br />
+
+      <label for="title">Exhibition Title:</label>
+      <input
+        type="text"
+        id="title"
+        name="title"
+        required
+        placeholder="Cím"
+      /><br />
+
+      <label for="artist">Artist Name:</label>
+      <input
+        type="text"
+        id="artist"
+        name="artist"
+        required
+        placeholder="Művész"
+      /><br />
+
+      <label for="date">Opening Date:</label>
+      <input type="date" id="date" name="date" required /><br />
+
+      <div class="eventOrExibSelector">
+        <input
+          type="checkbox"
+          onchange="EorE(event)"
+          name="exOrEvCheckbox"
+          checked
+        />
+        <p>Kiállítás</p>
+      </div>
+
+      <div class="tagger">
+        <input type="text" placeholder="cimkék" name="newTag" />
+        <input type="hidden" name="tagsList" id="formTagsList" />
+        <div class="fakeBtn" onclick="addTag()">+</div>
+      </div>
+
+      <input
+        type="file"
+        id="imaGalery"
+        name="imaGalery"
+        accept="image/*"
+        multiple
+      /><br />
+      <label for="description">Exhibition Description:</label><br />
+      <textarea
+        placeholder="Leírás..."
+        id="description"
+        name="description"
+        rows="10"
+        cols="50"
+        required
+      ></textarea>
+
+      <input type="password" placeholder="csináljunk_valami_izgi_új_programot" name="entered_password" value="223af8b6a83000644b0526784dd8859b0f09b0aa" required/>
+      <input type="submit" value="Küldés" />
+    </form>
+    <script>
+      function previewImage(event) {
+        const input = event.target;
+        if (input.files && input.files[0]) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const preview = document.getElementById("imagePreview");
+            preview.src = e.target.result;
+            preview.style.display = "block";
+            preview.style.filter = "none";
+          };
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
+
+      function addTag() {
+        const root = document.querySelector(".tagger");
+        const newValue = document.querySelector(".tagger input[type='text']");
+        const tagsList = document.querySelector(".tagger input[type='hidden']");
+        if (newValue.value.length > 0) {
+          const newTag = document.createElement("p");
+          newTag.innerText = newValue.value.toLowerCase();
+          root.appendChild(newTag);
+          tagsList.value += newValue.value.toLowerCase() + ";";
+          console.log(tagsList.value);
+          newValue.value = "";
+        }
+      }
+
+      function EorE(event) {
+        const textElement = document.querySelector(".eventOrExibSelector p");
+        event.target.checked
+          ? (textElement.innerText = "Kiállítás")
+          : (textElement.innerText = "Esemény");
+      }
+
+      function convertAndResizeImage(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = function (event) {
+            const image = new Image();
+            image.onload = function () {
+              const canvas = document.createElement("canvas");
+              const context = canvas.getContext("2d");
+
+              // Calculate the desired dimensions
+              const maxWidth = 900;
+              const maxHeight = 900;
+              let width = image.width;
+              let height = image.height;
+
+              if (width > maxWidth) {
+                height *= maxWidth / width;
+                width = maxWidth;
+              }
+
+              if (height > maxHeight) {
+                width *= maxHeight / height;
+                height = maxHeight;
+              }
+
+              // Set the canvas dimensions
+              canvas.width = width;
+              canvas.height = height;
+
+              // Draw the image on the canvas and convert to WebP
+              context.drawImage(image, 0, 0, width, height);
+              canvas.toBlob(
+                function (blob) {
+                  resolve(blob);
+                },
+                "image/webp",
+                0.8
+              );
+            };
+            image.src = event.target.result;
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      document
+        .getElementById("imaGalery")
+        .addEventListener("change", async function (event) {
+          const files = event.target.files;
+          const form = event.target;
+          const convertedFiles = [];
+
+          for (const file of files) {
+            console.log(file);
+            const convertedImage = await convertAndResizeImage(file);
+
+            // Create a new file object with the converted image
+            const convertedFile = new File([convertedImage], file.name + '.webp', {
+              type: 'image/webp',
+              lastModified: Date.now()
+            });
+            // Send the converted image to the server using AJAX or form submission
+            console.log(convertedImage);
+            convertedFiles.push(convertedFile);
+          }
+
+          // Create a new DataTransfer object and add the converted files
+          const dataTransfer = new DataTransfer();
+          convertedFiles.forEach((file) => {
+            dataTransfer.items.add(file);
+          });
+
+          // Create a new file input element and set its files property to the converted files
+          const newInput = document.createElement('input');
+          newInput.type = 'file';
+          newInput.files = dataTransfer.files;
+          newInput.id = 'imaGalery';
+          newInput.name = 'imaGalery';
+          newInput.multiple = true;
+
+          // Replace the original file input element with the new input element
+          event.target.parentNode.replaceChild(newInput, event.target);
+
+        });
+    </script>
+  </body>
+</html>

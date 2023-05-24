@@ -1,0 +1,12 @@
+*.DS_Store
+*.mock
+*node_modules/
+volumes/site/exibs/*
+volumes/site/events/*
+volumes/site/indexGen.html
+volumes/db/*
+todo.txt
+.prettierignore
+*.py
+*.env
+*.sh

@@ -1,0 +1,65 @@
+version: '3'
+
+name: galeri
+
+services:
+  client:
+    build: ./client
+    hostname: clientServer
+    volumes:
+      - "./volumes/site:/app/public"
+    depends_on:
+      - database
+    env_file:
+      - .env
+    networks:
+      default:
+        ipv4_address: 172.19.0.4
+
+  admin:
+    build: ./admin
+    hostname: adminServer
+    volumes:
+      - "./volumes/site:/app/public"
+    depends_on:
+      - database
+    env_file:
+      - .env
+    networks:
+      default:
+        ipv4_address: 172.19.0.3
+
+  database:
+    build: ./database
+    hostname: dbServer
+    volumes:
+      - "./volumes/db:/data/db"
+      - "./database/mongod.conf:/etc/mongod.conf"
+    env_file:
+      - .env
+    ports:
+      - "27017:27017"
+    networks:
+      default:
+        ipv4_address: 172.19.0.5
+
+  nginx:
+      image: nginx:latest
+      volumes:
+        - "./nginx.conf:/etc/nginx/nginx.conf:ro"
+        - "./volumes/site:/usr/share/nginx/html"
+      ports:
+        - "80:80"
+      depends_on:
+        - admin
+        - client
+      networks:
+        default:
+          ipv4_address: 172.19.0.2
+
+networks:
+  default:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.19.0.0/28

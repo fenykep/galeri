@@ -1,0 +1,53 @@
+main {
+  display: grid;
+  grid-template-columns: calc((2 / 5) * (100vw - 48px) + 48px) calc(
+      (3 / 5) * (100vw - 48px)
+    );
+}
+
+.artistDesc {
+  background-color: #272727;
+  color: white;
+}
+
+.artistDesc h1 {
+  margin-top: -48px;
+  margin-left: 24px;
+  --outline-weight: 1px;
+  text-shadow: calc(-1 * var(--outline-weight)) calc(-1 * var(--outline-weight))
+      0 black,
+    var(--outline-weight) calc(-1 * var(--outline-weight)) 0 black,
+    var(--outline-weight) var(--outline-weight) 0 black,
+    calc(-1 * var(--outline-weight)) var(--outline-weight) 0 black,
+    0 0 var(--outline-weight) black;
+}
+
+.artistDesc p {
+  color: white;
+  padding: 0 48px;
+}
+
+.birthDate {
+  margin-bottom: 24px;
+}
+
+.artistImg {
+  margin: 0;
+  width: 100%;
+  object-fit: cover;
+  height: 50vh;
+}
+
+.artistGallery {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  height: fit-content;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.artistGallery img {
+  width: 100%;
+}

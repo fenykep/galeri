@@ -1,0 +1,19 @@
+doctype html
+html(lang="hu")
+	head
+		title 3/7Galery
+		link(href='/css/main.css', rel='stylesheet')
+		link(href='/css/eventsMenu.css', rel='stylesheet', media='orientation: portrait')
+		meta(charset='utf-8')
+	body
+		include nav.pug
+		main.eventMain
+			.eventcont
+				each item in data
+					.exibcard
+							img(src=`/${item.directory}/cover.webp`)
+							h4= item.title
+							p= item.date.toISOString().substr(0, 10)
+							p.exibcardDescription #{item.description}
+							button(onclick=`window.location.href='/${item.directory}/eventPage.html'`) bővebben
+	include footer.pug

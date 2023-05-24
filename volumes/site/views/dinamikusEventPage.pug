@@ -1,0 +1,26 @@
+doctype html
+html(lang="hu")
+	head
+		title 3hétGaléria
+		link(href='/css/main.css', rel='stylesheet')
+		link(href='/css/event.css', rel='stylesheet')
+		meta(charset='utf-8')
+	body
+		include sandwichMenu.pug
+		include nav.pug
+		img(src=`/${event.directory}/cover.webp`).eventCover
+		//- img(srcset='sCover.webp 480w, mCover.webp 768w, lCover.webp 1920w' alt='Exhibition cover image')
+		main
+			h1 #{event.artist} - 
+			h1 #{event.title}
+			p #{event.date.toISOString().substr(0, 10)}
+			if event.tags && event.tags.length
+				.tags
+					each tag in event.tags
+						if tag
+							p #{tag}
+			p!= event.description.replace(/\n/g, '<br>')
+			.galeri
+				each i in Array.from(Array(event.numImages).keys())
+					- const imageName = ('0' + (i + 1)).slice(-2) + '.webp'
+					img(src=`/${event.directory}/gal/L/${imageName}`)
