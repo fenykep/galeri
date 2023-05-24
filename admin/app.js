@@ -214,7 +214,6 @@ app.post(
   "/uploadEvent",
   upload.fields([{ name: "image" }, { name: "imaGalery" }]),
   (req, res, next) => {
-
     if (req.body.entered_password != http_password) {
       res.send(401);
       throw new Error("Illetékteleneknek belépni tilos.");

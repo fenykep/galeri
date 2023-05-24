@@ -29,9 +29,10 @@ h1 {
 }
 
 .tags p {
-  border: solid black 2px;
+  border: var(--borderLine);
   padding: 5px 10px;
   margin-top: 0;
+  font-size: 1rem;
 }
 
 /*legyen egy/két brékpontod galeri grid 2-3-4col*/
@@ -105,6 +106,10 @@ nav .szocblok,
     animation: shake 10s infinite;
     width: 90px;
     height: 90px;
+  }
+
+  .tags p{
+    font-size: 2rem;
   }
 
   .galeri {

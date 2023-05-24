@@ -1,5 +1,3 @@
-@import "mobil.css" screen and (orientation: portrait);
-
 :root {
   --border: 2px;
   --borderLine: solid black 2px;
@@ -280,7 +278,7 @@ section.kiallitasok {
   padding-left: 100px;
   padding-right: 100px;
 
-  height: 820px;
+/*  height: 820px;*/
 }
 
 /*mondjuk ezek kellenek több helyre is*/
@@ -539,16 +537,4 @@ footer {
   margin-bottom: 40px;
 }
 
-/*itt importálod a mobiloscsst HA brékpont*/
-/*@media (orientation: portrait){
-	@import url("page/css/mobil.css");
-	.exibcards{
-		flex-direction: column;
-	}
-	.exibcard{
-		width: 100%;
-	}
-	.exibcard > img{
-		float: left;
-	}
-}*/
+@import url("mobil.css") screen and (orientation: portrait)
