@@ -25,6 +25,8 @@
     "sharp": "^0.32.0"
   },
   "devDependencies": {
+    "csscomb": "^4.3.0",
+    "csslint": "^1.0.5",
     "prettier": "^2.8.7"
   }
 }

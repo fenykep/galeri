@@ -13,17 +13,17 @@
 
 @font-face {
   font-family: "regular";
-  src: url("../fonts/Poppins-Regular.ttf");
+  src: url("../fonts/Poppins-Regular.ttf") format('truetype');
 }
 
 @font-face {
   font-family: "bold";
-  src: url("../fonts/Poppins-Bold.ttf");
+  src: url("../fonts/Poppins-Bold.ttf") format('truetype');
 }
 
 @font-face {
   font-family: "italic";
-  src: url("../fonts/Poppins-Italic.ttf");
+  src: url("../fonts/Poppins-Italic.ttf") format('truetype');
 }
 
 html {
@@ -63,8 +63,8 @@ button {
 }
 
 a {
-  text-decoration: none;
   color: black;
+  text-decoration: none;
 }
 
 h1 {
@@ -133,7 +133,7 @@ nav {
   box-sizing: border-box;
   height: 56px;
   padding: 14px 0 0 18px;
-  margin: 0px 0px 0 0px;
+  margin: 0 0 0 0;
 
   text-transform: uppercase;
 
@@ -167,6 +167,7 @@ nav > a:last-child {
   top: 0;
   left: 0;
   height: 100px;
+  z-index: 10;
 }
 
 .logo {
@@ -287,13 +288,17 @@ section.kiallitasok {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  width: 100%;
+  gap: 20px;
 }
 
 .exibcard {
-  width: calc(33vw - 250px / 3);
+/*  width: calc(33vw - 250px / 3);*/
+  width: 100%;
   border: var(--borderLine);
   position: relative;
   padding-bottom: 48px;
+  box-sizing: border-box;
 }
 
 .eventexibcard {
@@ -335,7 +340,7 @@ section.kiallitasok {
 }
 
 .exibcard img {
-  width: calc(33vw - 250px / 3);
+/*  width: calc(33vw - 250px / 3);*/
   width: 100%;
   aspect-ratio: 1.9;
   object-fit: cover;
@@ -347,9 +352,10 @@ section.artists {
 }
 
 .artistcont {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   justify-content: space-between;
+  gap: 18px 20px;
 }
 
 .artistcard h4 {
@@ -357,10 +363,12 @@ section.artists {
   bottom: 45px;
   left: 25px;
   color: white;
+  height: 0;
 }
 
 .artistcard img {
-  width: calc(25vw - 275px / 4);
+/*  width: calc(25vw - 275px / 4);*/
+  width: 100%;
   cursor: pointer;
   aspect-ratio: 1;
   object-fit: cover;
@@ -519,11 +527,13 @@ footer {
 /* -------- formatting for events and exhibitions -----*/
 .eventcont {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-row-gap: 10px;
+/*  grid-template-columns: 1fr 1fr 1fr;*/
+  box-sizing: border-box;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-gap: 24px;
 
   justify-items: center;
-  padding-top: 40px;
+  padding: 40px 20px;
 }
 
 .eventCover {

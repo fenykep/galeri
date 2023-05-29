@@ -1,3 +1,6 @@
 Rewrite the Dockerfiles so they use the online versions.
 Minify, reformat.
 Block external access to your DB.
+Dont autofill the adminupload psw
+rename the adm endpoint to csinaljunk_valami_izgi_uj_dolgot
+rm nginx no-cache
