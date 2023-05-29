@@ -13,17 +13,17 @@
 
 @font-face {
   font-family: "regular";
-  src: url("../fonts/Poppins-Regular.ttf") format('truetype');
+  src: url("../fonts/Poppins-Regular.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "bold";
-  src: url("../fonts/Poppins-Bold.ttf") format('truetype');
+  src: url("../fonts/Poppins-Bold.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "italic";
-  src: url("../fonts/Poppins-Italic.ttf") format('truetype');
+  src: url("../fonts/Poppins-Italic.ttf") format("truetype");
 }
 
 html {
@@ -293,7 +293,7 @@ section.kiallitasok {
 }
 
 .exibcard {
-/*  width: calc(33vw - 250px / 3);*/
+  /*  width: calc(33vw - 250px / 3);*/
   width: 100%;
   border: var(--borderLine);
   position: relative;
@@ -340,7 +340,7 @@ section.kiallitasok {
 }
 
 .exibcard img {
-/*  width: calc(33vw - 250px / 3);*/
+  /*  width: calc(33vw - 250px / 3);*/
   width: 100%;
   aspect-ratio: 1.9;
   object-fit: cover;
@@ -367,7 +367,7 @@ section.artists {
 }
 
 .artistcard img {
-/*  width: calc(25vw - 275px / 4);*/
+  /*  width: calc(25vw - 275px / 4);*/
   width: 100%;
   cursor: pointer;
   aspect-ratio: 1;
@@ -527,7 +527,7 @@ footer {
 /* -------- formatting for events and exhibitions -----*/
 .eventcont {
   display: grid;
-/*  grid-template-columns: 1fr 1fr 1fr;*/
+  /*  grid-template-columns: 1fr 1fr 1fr;*/
   box-sizing: border-box;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   grid-gap: 24px;
