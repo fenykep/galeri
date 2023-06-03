@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="hu">
+  <head>
+    <title>3hétGaléria</title>
+    <link href="css/main.css" rel="stylesheet" />
+    <meta charset="utf-8" />
+  </head>
+  <style type="text/css">
+    .slide {
+      width: 100vw;
+      height: calc(100vh - 100px);
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1s;
+      position: absolute;
+    }
+    .active {
+      opacity: 1;
+    }
+  </style>
+  <body>
+    <!DOCTYPE html>
+    <a href="index.html"><img src="/img/logo.png" id="logimg" /></a>
+    <nav>
+      <h1 class="logo">Három hét Galéria</h1>
+      <div class="szocblok">
+        <a class="insta" href="https://www.instagram.com/harom_het_gallery/">
+          <img src="/img/ig.svg" /></a>
+        <a class="fb" href="https://www.facebook.com/haromhet">
+          <img src="/img/fb.png" /></a>
+        <a class="langs" href="https://www.instagram.com/harom_het_gallery/">
+        EN</a>
+      </div>
+      <a class="about" href="/index.html#">galériáról</a>
+      <a class="exibs" href="/exibs">kiállítások</a>
+      <a class="artists" href="/index.html#muveszek">művészek</a>
+      <a class="events" href="/events">programok</a>
+      <a class="contact" href="/index.html#kapcsolat">kapcsolat</a>
+    </nav>
+    <main>
+      <img src="img/cover/img1.webp" class="slide active" />
+      <img src="img/cover/img2.webp" class="slide" />
+      <img src="img/cover/img3.webp" class="slide" />
+    </main>
+    <script>
+      const slides = document.querySelectorAll(".slide");
+      let currentSlide = 0;
+
+      function showSlide() {
+        slides.forEach((slide, index) => {
+          if (index === currentSlide) {
+            slide.classList.add("active");
+          } else {
+            slide.classList.remove("active");
+          }
+        });
+      }
+
+      function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide();
+      }
+
+      setInterval(nextSlide, 2000);
+    </script>
+  </body>
+</html>

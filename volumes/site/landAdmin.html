@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="hu">
+  <head>
+    <title>3hétGaléria</title>
+    <link href="css/main.css" rel="stylesheet" />
+    <meta charset="utf-8" />
+  </head>
+  <style type="text/css">
+    main{
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      justify-content: space-around;
+      padding: 24px 0;
+    }
+    .slide {
+      width: 25vw;
+      height: calc(25vw * 9/16);
+      border: solid black 2px;
+      position: relative;
+    }
+
+    .slide input{
+      display: none;
+    }
+
+    .slide img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .delImg {
+      position: absolute;
+      font-family: 'bold', sans-serif;
+      top: 10px;
+      right: 10px;
+      color: #f00;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 1;
+      margin: 0;
+      background: black;
+      height: 1.5em;
+      text-align: center;
+      width: 1.5em;
+    }
+
+    .deleted .delImg, .deleted img{
+      display: none;
+    }
+
+    .addImg {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #000;
+      cursor: pointer;
+      font-size: calc(25vw * 9/16);;
+      z-index: 0;
+      margin: 0;
+      text-shadow: 4px 4px 1px #bbb;
+    }
+
+    .deleted .addImg{
+      display: inherit;
+    }
+
+    input[type="password"]{
+      float: right;
+      border: 2px solid black;
+      font-family: 'regular', sans-serif;
+      height: 35px;
+      box-sizing: border-box;
+    }
+
+    .saveBtn{
+      float: right;
+      height: 35px;
+      box-sizing: border-box;
+      margin: 0 calc(25vw / 6);
+    }
+  </style>
+  <body>
+    <!DOCTYPE html>
+    <a href="index.html"><img src="/img/logo.png" id="logimg" /></a>
+    <nav>
+      <h1 class="logo">Három hét Galéria</h1>
+      <div class="szocblok">
+        <a class="insta" href="https://www.instagram.com/harom_het_gallery/">
+          <img src="/img/ig.svg" /></a>
+        <a class="fb" href="https://www.facebook.com/haromhet">
+          <img src="/img/fb.png" /></a>
+        <a class="langs" href="https://www.instagram.com/harom_het_gallery/">
+        EN</a>
+      </div>
+      <a class="about" href="/index.html#">galériáról</a>
+      <a class="exibs" href="/exibs">kiállítások</a>
+      <a class="artists" href="/index.html#muveszek">művészek</a>
+      <a class="events" href="/events">programok</a>
+      <a class="contact" href="/index.html#kapcsolat">kapcsolat</a>
+    </nav>
+    <main>
+      <div class="slide" number="1">
+        <p class="delImg" onclick="deleteImg(this.parentNode)">X</p>
+        <img src="img/cover/img1.webp">
+        <p class="addImg" onclick="this.nextElementSibling.click()">+</p>
+        <input type="file" id="image1" accept="image/*" onchange="upImage(event)">
+      </div>
+      <div class="slide" number="2">
+        <p class="delImg" onclick="deleteImg(this.parentNode)">X</p>
+        <img src="img/cover/img2.webp">
+        <p class="addImg" onclick="this.nextElementSibling.click()">+</p>
+        <input type="file" id="image1" accept="image/*" onchange="upImage(event)">
+      </div>
+      <div class="slide" number="3">
+        <p class="delImg" onclick="deleteImg(this.parentNode)">X</p>
+        <img src="img/cover/img3.webp">
+        <p class="addImg" onclick="this.nextElementSibling.click()">+</p>
+        <input type="file" id="image1" accept="image/*" onchange="upImage(event)">
+      </div>
+    </main>
+    <button class="saveBtn" onclick="saveChanges()">Mentés</button>
+    <input type="password" name="" value="223af8b6a83000644b0526784dd8859b0f09b0aa" placeholder="jelszót kérek">
+    <script>
+      function deleteImg(cont){
+        console.log(cont);
+        cont.classList+=" deleted";
+      }
+
+      async function upImage(event){
+        const cont = event.target.parentNode;
+        cont.classList.remove('deleted');
+        const convertedImage = await convertAndResizeImage(event.target.files[0]);
+        
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          cont.querySelector('img').src=e.target.result;
+        };
+        // setImages[cont.getAttribute('number')-1]=1;
+        reader.readAsDataURL(convertedImage);
+      }
+
+      function convertAndResizeImage(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = function (event) {
+            const image = new Image();
+            image.onload = function () {
+              const canvas = document.createElement("canvas");
+              const context = canvas.getContext("2d");
+
+              // Calculate the desired dimensions
+              const maxWidth = 1900;
+              let width = image.width;
+              let height = image.height;
+
+              if (width > maxWidth) {
+                height *= maxWidth / width;
+                width = maxWidth;
+              }
+
+              // Set the canvas dimensions
+              canvas.width = width;
+              canvas.height = height;
+
+              // Draw the image on the canvas and convert to WebP
+              context.drawImage(image, 0, 0, width, height);
+              canvas.toBlob(
+                function (blob) {
+                  resolve(blob);
+                },
+                "image/webp",
+                0.9
+              );
+            };
+            image.src = event.target.result;
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      async function saveChanges() {
+        const password = document.querySelector("input[type='password']").value;
+        // const images = [];
+        const formData = new FormData();
+
+        formData.append('entered_password', password);
+
+        // Get the images from .slide components that meet the conditions
+        const slideComponents = document.querySelectorAll('.slide');
+        slideComponents.forEach((slide) => {
+          const imageElement = slide.querySelector('img');
+          const src = imageElement.getAttribute('src');
+          const number = slide.getAttribute('number');
+
+          // Regular expression pattern to match img1, img2, or img3 followed by .webp or .png extension
+          const pattern = /img[1-3]\.(webp|png)$/;
+
+          // Check if the image source matches the pattern
+          if (!pattern.test(src)) {
+            const name = `img${number}.webp`;
+            // Add the image source as a field in the form data
+            formData.append('images[]', src);
+            // Add the image name as a field in the form data
+            formData.append('imageNames[]', name);
+          }
+        });
+
+        // Create the payload object to be sent to the server
+        const payload = {
+          method: 'POST',
+          body: formData
+        };
+
+        console.log(formData);
+
+        fetch('/changeLandingImages', payload)
+          .then((response) => {
+            if (response.ok) {
+              console.log('Images updated successfully');
+            } else {
+              console.log('Error updating images');
+            }
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+      };
+
+    </script>
+  </body>
+</html>

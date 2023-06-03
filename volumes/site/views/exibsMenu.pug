@@ -15,5 +15,45 @@ html(lang="hu")
 							h4= item.title
 							p= item.date.toISOString().substr(0, 10)
 							p.exibcardDescription #{item.description}
+							if isRenderedFromAdmin
+								span(style="position: absolute; font-family: 'bold', sans-serif; top: 10px; right: 10px; color: #f00; font-size: 20px; cursor: pointer; background: black;" onclick="confirmDelete(this.parentNode)").cross &#10060
+
 							button(onclick=`window.location.href='/${item.directory}/eventPage.html'`) bővebben
 	include footer.pug
+	if isRenderedFromAdmin
+		script.
+			function confirmDelete(element) {
+				const password = prompt('Ha tényleg szeretnéd törölni ezt  az eseményt, akkor írd kérlek be a jelszót:');
+				if (password !== null && password.trim() !== '') {
+					element.remove();
+					console.log('pw: '+password);
+					const url = element.querySelector('img').src;
+					const location = url.match(/(?:exibs|events)\/([^/]+)\/cover\.webp$/)[0].replace(/\/cover\.webp$/, '');
+					console.log('todelete: '+location);
+					httpDelete(password, location);
+				}
+			}
+
+			async function httpDelete(password, url){
+				const formData = new FormData();
+				formData.append('entered_password', password);
+				formData.append('url', url);
+				// Create the payload object to be sent to the server
+				const payload = {
+					method: 'DELETE',
+					body: formData
+				};
+
+				fetch('/delEvent', payload)
+					.then((response) => {
+						if (response.ok) {
+							console.log('Event Deleted Successfully');
+						} else {
+							console.log('I could not delete it.');
+						}
+					})
+					.catch((error) => {
+						console.error('Error:', error);
+					});
+
+			}

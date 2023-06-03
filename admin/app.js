@@ -32,7 +32,11 @@ function createString(obj) {
 }
 
 const app = express();
-const upload = multer();
+const upload = multer({
+  limits: {
+    fieldSize: 500 * 1024 * 1024, // 10MB in bytes
+  },
+});
 
 app.use(express.static("app/public"));
 
@@ -139,6 +143,39 @@ async function getEntries() {
   }
 }
 
+async function getAllEntries() {
+  try {
+    const entry = await EntryModel.find().sort({
+      date: -1,
+    });
+
+    const data = await Promise.all(
+      entry.map(async (item) => {
+        const descriptionFilePath = path.join(
+          __dirname,
+          "app",
+          "public",
+          item.directory,
+          "description.txt"
+        );
+        let description;
+        try {
+          description = await fs.readFileSync(descriptionFilePath, "utf-8");
+        } catch (error) {
+          console.error(`Error reading file ${descriptionFilePath}: ${error}`);
+          description = "Ezt az eseményt nem írtuk (még) le.";
+        }
+        return { ...item.toObject(), description };
+      })
+    );
+
+    return data;
+  } catch (error) {
+    console.error(`Error retrieving entries: ${error}`);
+    throw new Error("Internal server error");
+  }
+}
+
 async function updateIndexPage() {
   const { actualExibData, pastExibsData, actualEventData } = await getEntries();
   const renderedHtml = pug.renderFile("app/public/views/index.pug", {
@@ -153,7 +190,7 @@ async function updateIndexPage() {
     if (err) {
       console.error("Error saving file:", err);
     } else {
-      console.log("File saved successfully");
+      console.log("Index page updated successfully");
     }
   });
 }
@@ -169,6 +206,45 @@ app.get(["/", "/index"], async (req, res) => {
 app.get("/generalj", (req, res) => {
   updateIndexPage();
   res.sendFile(path.join(__dirname, "app/public/indexGen.html"));
+});
+
+app.delete("/delEvent", upload.none(), (req, res) => {
+  const { url, entered_password } = req.body;
+
+  // const parsedURL = url.replace(/^\/|\/cover\.webp$/g, '');
+  console.log(url);
+
+  if (entered_password != http_password) {
+    res.status(401).send("Unauthorized");
+    throw new Error("Illetékteleneknek belépni tilos.");
+  }
+
+  const folderPath = path.join(__dirname, "/app/public", url);
+
+  fs.rm(folderPath, { recursive: true }, (err) => {
+    if (err) {
+      console.error('Error removing directory:', err);
+    } else {
+      console.log('Directory removed successfully');
+      db.collection("entries").deleteOne({ directory: url }, (error, result) => {
+        if (error) {
+          console.error('Error deleting entry:', error);
+        } else {
+          console.log('Entry deleted successfully');
+          updateIndexPage(); // Update the index page after successful deletion
+        }
+      });
+    }
+  });
+
+  res.sendFile(path.join(__dirname, "app/public/indexGen.html"));
+});
+
+// This is the endpoint which will display all events and exhibitions
+// with all the cards having a smaall X to delete them
+app.get("/eventsAdmin", async (req, res) => {
+  const data = await getAllEntries();
+  res.render("exibsMenu", { data, isRenderedFromAdmin:true });
 });
 
 async function insertEntries(entries) {
@@ -210,14 +286,51 @@ async function resizeAndSaveFile(fileBuffer, sizes) {
   return Promise.all(promises);
 }
 
+app.post("/changeLandingImages", upload.none(), (req, res) => {
+  // console.log(req.body);
+  console.log('hallikóka, megjott!!');
+  const { images, imageNames, entered_password } = req.body;
+
+
+  // Check password for authentication
+  if (req.body.entered_password != http_password) {
+    res.status(401).send("Unauthorized");
+    throw new Error("Illetékteleneknek belépni tilos.");
+  }
+
+  // If no images provided, redirect to '/'
+  if (!images || images.length === 0) {
+    return res.redirect("/");
+  }
+
+  // Loop through the images and save them to disk
+  images.forEach((image, index) => {
+    // const { src, name } = image;
+    const filePath = path.join(__dirname, "app/public/img/cover/", imageNames[index]);
+
+    const imageData = image.replace(/^data:image\/\w+;base64,/, ''); // Remove the data URL prefix
+
+    // Convert the image URL to a Buffer
+    const imageBuffer = Buffer.from(imageData, 'base64');
+    
+    fs.writeFileSync(filePath, imageBuffer);
+  });
+
+  // Return a success response
+  res.status(200).send("Images updated successfully");
+});
+
+
+
 app.post(
   "/uploadEvent",
   upload.fields([{ name: "image" }, { name: "imaGalery" }]),
   (req, res, next) => {
     if (req.body.entered_password != http_password) {
-      res.send(401);
+      res.status(401).send("Unauthorized");
       throw new Error("Illetékteleneknek belépni tilos.");
     }
+
     const numImages = req.files["imaGalery"]
       ? req.files["imaGalery"].length
       : 0; // Check if imaGalery files were uploaded
@@ -253,7 +366,7 @@ app.post(
 
     // generate the cover images in L M S sizes
     const coverImgWidhts = {
-      cover: 1980,
+      cover: 1920,
       coverM: 768,
       coverS: 480,
     };
@@ -330,7 +443,7 @@ app.post(
         if (!err) {
           // The cover image file exists, clear the interval and redirect the user
           clearInterval(checkFileInterval);
-          // updateIndexPage();
+          updateIndexPage();
           res.redirect(`/${newEntry.directory}/eventPage.html`);
         } else {
           console.log("Can't find the cover :(");
