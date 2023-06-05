@@ -223,17 +223,20 @@ app.delete("/delEvent", upload.none(), (req, res) => {
 
   fs.rm(folderPath, { recursive: true }, (err) => {
     if (err) {
-      console.error('Error removing directory:', err);
+      console.error("Error removing directory:", err);
     } else {
-      console.log('Directory removed successfully');
-      db.collection("entries").deleteOne({ directory: url }, (error, result) => {
-        if (error) {
-          console.error('Error deleting entry:', error);
-        } else {
-          console.log('Entry deleted successfully');
-          updateIndexPage(); // Update the index page after successful deletion
+      console.log("Directory removed successfully");
+      db.collection("entries").deleteOne(
+        { directory: url },
+        (error, result) => {
+          if (error) {
+            console.error("Error deleting entry:", error);
+          } else {
+            console.log("Entry deleted successfully");
+            updateIndexPage(); // Update the index page after successful deletion
+          }
         }
-      });
+      );
     }
   });
 
@@ -244,7 +247,7 @@ app.delete("/delEvent", upload.none(), (req, res) => {
 // with all the cards having a smaall X to delete them
 app.get("/eventsAdmin", async (req, res) => {
   const data = await getAllEntries();
-  res.render("exibsMenu", { data, isRenderedFromAdmin:true });
+  res.render("exibsMenu", { data, isRenderedFromAdmin: true });
 });
 
 async function insertEntries(entries) {
@@ -288,9 +291,8 @@ async function resizeAndSaveFile(fileBuffer, sizes) {
 
 app.post("/changeLandingImages", upload.none(), (req, res) => {
   // console.log(req.body);
-  console.log('hallikóka, megjott!!');
+  console.log("hallikóka, megjott!!");
   const { images, imageNames, entered_password } = req.body;
-
 
   // Check password for authentication
   if (req.body.entered_password != http_password) {
@@ -306,21 +308,23 @@ app.post("/changeLandingImages", upload.none(), (req, res) => {
   // Loop through the images and save them to disk
   images.forEach((image, index) => {
     // const { src, name } = image;
-    const filePath = path.join(__dirname, "app/public/img/cover/", imageNames[index]);
+    const filePath = path.join(
+      __dirname,
+      "app/public/img/cover/",
+      imageNames[index]
+    );
 
-    const imageData = image.replace(/^data:image\/\w+;base64,/, ''); // Remove the data URL prefix
+    const imageData = image.replace(/^data:image\/\w+;base64,/, ""); // Remove the data URL prefix
 
     // Convert the image URL to a Buffer
-    const imageBuffer = Buffer.from(imageData, 'base64');
-    
+    const imageBuffer = Buffer.from(imageData, "base64");
+
     fs.writeFileSync(filePath, imageBuffer);
   });
 
   // Return a success response
   res.status(200).send("Images updated successfully");
 });
-
-
 
 app.post(
   "/uploadEvent",

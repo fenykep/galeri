@@ -37,7 +37,7 @@ html(lang="hu")
 			section#muveszek.artists
 				h1 művészek
 				.artistcont
-					each artist in ['Claude Monet', "Georgia O'Keeffe", 'Frida Kahlo', 'Kemény György', 'Pablo Picasso', 'Yayoi Kusama', 'Mary Cassatt', 'Vincent van Gogh']
+					each artist in ['Claude Monet', "Georgia O'Keeffe", 'Frida Kahlo', 'Kemény György', 'Pablo Picasso', 'Yayoi Kusama', 'Benedek Barna', 'Vincent van Gogh']
 						- const directoryName = artist.replace(/\W+/g, '').toLowerCase()
 						.artistcard(onclick=`window.location.href='/artist/${directoryName}'`)
 							img(src=`/artists/${directoryName}/artist.jpg`)

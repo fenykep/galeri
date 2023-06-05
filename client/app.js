@@ -103,7 +103,7 @@ app.get("/artist/:artistname", async (req, res) => {
     kemnygyrgy: "Kemény György",
     pablopicasso: "Pablo Picasso",
     yayoikusama: "Yayoi Kusama",
-    marycassatt: "Mary Cassatt",
+    benedekbarna: "Benedek Barna",
     vincentvangogh: "Vincent van Gogh",
   };
   const artistName = req.params.artistname;

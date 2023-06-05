@@ -32,7 +32,6 @@
 
     .delImg {
       position: absolute;
-      font-family: 'bold', sans-serif;
       top: 10px;
       right: 10px;
       color: #f00;
@@ -96,34 +95,34 @@
         <a class="langs" href="https://www.instagram.com/harom_het_gallery/">
         EN</a>
       </div>
-      <a class="about" href="/index.html#">galériáról</a>
+      <a class="about" href="/index#">galériáról</a>
       <a class="exibs" href="/exibs">kiállítások</a>
-      <a class="artists" href="/index.html#muveszek">művészek</a>
+      <a class="artists" href="/index#muveszek">művészek</a>
       <a class="events" href="/events">programok</a>
-      <a class="contact" href="/index.html#kapcsolat">kapcsolat</a>
+      <a class="contact" href="/index#kapcsolat">kapcsolat</a>
     </nav>
     <main>
       <div class="slide" number="1">
-        <p class="delImg" onclick="deleteImg(this.parentNode)">X</p>
+        <p class="delImg" onclick="deleteImg(this.parentNode)">&#10060</p>
         <img src="img/cover/img1.webp">
         <p class="addImg" onclick="this.nextElementSibling.click()">+</p>
         <input type="file" id="image1" accept="image/*" onchange="upImage(event)">
       </div>
       <div class="slide" number="2">
-        <p class="delImg" onclick="deleteImg(this.parentNode)">X</p>
+        <p class="delImg" onclick="deleteImg(this.parentNode)">&#10060</p>
         <img src="img/cover/img2.webp">
         <p class="addImg" onclick="this.nextElementSibling.click()">+</p>
         <input type="file" id="image1" accept="image/*" onchange="upImage(event)">
       </div>
       <div class="slide" number="3">
-        <p class="delImg" onclick="deleteImg(this.parentNode)">X</p>
+        <p class="delImg" onclick="deleteImg(this.parentNode)">&#10060</p>
         <img src="img/cover/img3.webp">
         <p class="addImg" onclick="this.nextElementSibling.click()">+</p>
         <input type="file" id="image1" accept="image/*" onchange="upImage(event)">
       </div>
     </main>
     <button class="saveBtn" onclick="saveChanges()">Mentés</button>
-    <input type="password" name="" value="223af8b6a83000644b0526784dd8859b0f09b0aa" placeholder="jelszót kérek">
+    <input type="password" name="" value="" placeholder="jelszót kérek">
     <script>
       function deleteImg(cont){
         console.log(cont);
